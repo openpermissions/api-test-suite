@@ -1,0 +1,5 @@
+source_id_types,source_ids,description,offer_ids,set_ids
+testcopictureid,100123,Sunset over á Cáribbeán beách,https://www.copyrighthub.org/s0/hub1/offer/chub/11~https://www.copyrighthub.org/s0/hub1/offer/chub/12,
+testcopictureid~examplecopictureid,100456~999002,Polár beár on án ice floe,https://www.copyrighthub.org/s0/hub1/offer/chub/21~https://www.copyrighthub.org/s0/hub1/offer/chub/22~https://www.copyrighthub.org/s0/hub1/offer/chub/23~https://www.copyrighthub.org/s0/hub1/offer/chub/24,
+testcopictureid,200123,Sunset over á Cáribbeán beách,,1~2~3~4
+testcopictureid~examplecopictureid,200456~998002,Polár beár on án ice floe,https://www.copyrighthub.org/s0/hub1/offer/chub/31~https://www.copyrighthub.org/s0/hub1/offer/chub/32,1~2~3

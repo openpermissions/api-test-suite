@@ -1,0 +1,66 @@
+[
+{
+    "source_ids": [{
+        "source_id_type": "testcopictureid",
+        "source_id": "100123"
+    }],
+    "offer_ids": [
+        "https://www.copyrighthub.org/s0/hub1/offer/chub/11",
+        "https://www.copyrighthub.org/s0/hub1/offer/chub/12",
+        "https://www.copyrighthub.org/s0/hub1/offer/chub/13",
+        "https://www.copyrighthub.org/s0/hub1/offer/chub/14"
+    ],
+    "description": "Sunset over a Caribbean beach"
+}, 
+{
+    "source_ids": [{
+        "source_id": "100456",
+        "source_id_type": "testcopictureid"
+    }, {
+        "source_id_type": "examplecopictureid",
+        "source_id": "999002"
+    }],
+    "offer_ids": [
+        "https://www.copyrighthub.org/s0/hub1/offer/chub/11",
+        "https://www.copyrighthub.org/s0/hub1/offer/chub/12",
+        "13",
+        "14"
+    ],
+    "description": "Polar bear on an ice floe"
+},
+{
+    "source_ids": [{
+        "source_id_type": "testcopictureid",
+        "source_id": "200123"
+    }],
+    "set_ids": [
+        "1",
+        "2",
+        "https://www.copyrighthub.org/s0/hub1/set/chub/3",
+        "https://www.copyrighthub.org/s0/hub1/set/chub/4"
+    ],
+    "description": "Sunset over a Caribbean beach"
+}, 
+{
+    "source_ids": [{
+        "source_id": "200456",
+        "source_id_type": "testcopictureid"
+    }, {
+        "source_id_type": "examplecopictureid",
+        "source_id": "998002"
+    }],
+    "set_ids": [
+        "1",
+        "2",
+        "3",
+        "4"
+    ],
+    "offer_ids": [
+        "11",
+        "12",
+        "13",
+        "14"
+    ],    
+    "description": "Polar bear on an ice floe"
+},
+]
