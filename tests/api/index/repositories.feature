@@ -10,7 +10,7 @@ Feature: Query the repositories of an entity in the index
 
   Background:
       Given the client ID is the "testco" "external" service ID
-        And the client has an access token granting "read" access to the "hogwarts" "index" service
+        And the client has an access token granting "read" access to the "toppco" "index" service
 
   Scenario Outline: Retrieve repositories of an entity in the index
       Given a "valid" offer

@@ -41,7 +41,7 @@ Feature: Restrictions on service endpoint
         And response "data" should be an object with "permissions" of type "list"
 
 
-  Scenario: Hogwarts user get a testco service should not see the permissions
+  Scenario: Toppco user get a testco service should not see the permissions
 
       Given the existing user "cuthbert"
         And the user is logged in

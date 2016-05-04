@@ -70,7 +70,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
 
 
   Scenario: Organisation admin update state of user-organisation association
-      Given the existing organisation "hogwarts"
+      Given the existing organisation "toppco"
         And the existing user "harry"
         And the user is logged in
         And Header "Authorization" is a valid token
@@ -89,7 +89,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
         And response should not have key "errors"
 
   Scenario: Organisation admin update invalid state of user-organisation association
-      Given the existing organisation "hogwarts"
+      Given the existing organisation "toppco"
         And the existing user "harry"
         And the user is logged in
         And Header "Authorization" is a valid token
@@ -109,7 +109,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
       Given the existing user "harry"
         And the user is logged in
         And Header "Authorization" is a valid token
-        And the existing organisation "hogwarts"
+        And the existing organisation "toppco"
         And Header "Accept" is "application/json"
         And a new user
         And the user has joined the organisation
@@ -130,7 +130,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
 
 
   Scenario Outline: Organisation admin update invalid parameter of user-organisation association
-      Given the existing organisation "hogwarts"
+      Given the existing organisation "toppco"
         And the existing user "harry"
         And the user is logged in
         And Header "Authorization" is a valid token
@@ -192,7 +192,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
         And Header "Authorization" is a valid token
         And Header "Accept" is "application/json"
         And a new user
-        And the existing organisation "hogwarts"
+        And the existing organisation "toppco"
         And the user has joined the organisation
         And parameter "role" is "user"
 
@@ -299,7 +299,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
         And the user is logged in
         And Header "Authorization" is a valid token
         And Header "Accept" is "application/json"
-        And the existing organisation "hogwarts"
+        And the existing organisation "toppco"
         And a new user
         And the user has requested to join the organisation
         And parameter "role" is "user"
@@ -358,7 +358,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
 
   Scenario Outline: Unauthenticated update user for an organisation
       Given the existing user "harry"
-        And the existing organisation "hogwarts"
+        And the existing organisation "toppco"
         And Header "Accept" is "application/json"
         And parameter "<parameter>" is "<value"
         And Header "Authorization" is " "
@@ -508,7 +508,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
       Given the user is logged in
         And Header "Authorization" is a valid token
         And the existing user "harry"
-        And the existing organisation "hogwarts"
+        And the existing organisation "toppco"
 
        When I make a "DELETE" request to the "user organisation" endpoint with user & organisation IDs
        Then I should receive a "403" response code

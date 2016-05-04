@@ -30,4 +30,4 @@ R2RML_MAPPING_URLS = {
     'csv': 'https://raw.githubusercontent.com/openpermissions/r2rml-mappings/3.0.0/mappings/digicat0_csv.ttl'
 }
 
-test_org = 'hogwarts'
+test_org = 'toppco'

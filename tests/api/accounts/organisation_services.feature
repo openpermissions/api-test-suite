@@ -12,7 +12,7 @@ Feature: The Organisation Services endpoint
       Given the "accounts" service
         And the existing user "harry"
         And the user is logged in
-        And the existing organisation "hogwarts"
+        And the existing organisation "toppco"
 
 
   Scenario: Create and add a service to an organisation

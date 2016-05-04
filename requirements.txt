@@ -8,7 +8,7 @@ jsonpointer==1.10
 six==1.9.0
 rdflib==4.2.1
 rdflib-jsonld==0.3
-opp-bass==1.0.8
+opp-bass==1.0.9
 opp-chub==1.0.5
 opp-koi==1.0.8
 git+https://github.com/CDECatapult/behave.git@v1.3.1

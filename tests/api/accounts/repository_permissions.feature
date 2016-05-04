@@ -13,7 +13,7 @@ Feature: Restrictions on repository endpoint
         And Header "Content-Type" is "application/json"
         And Header "Accept" is "application/json"
 
-      Given the existing organisation "hogwarts" with a "repository" service
+      Given the existing organisation "toppco" with a "repository" service
         And the service contains a repository owned by the organisation
         And the service is approved
 
@@ -29,7 +29,7 @@ Feature: Restrictions on repository endpoint
         And response "data" should be an object without "permissions"
 
 
-  Scenario: Tesco user get a hogwarts repository should not see the permissions
+  Scenario: Tesco user get a toppco repository should not see the permissions
 
       Given the existing user "cathy"
         And the user is logged in
@@ -42,7 +42,7 @@ Feature: Restrictions on repository endpoint
         And response "data" should be an object without "permissions"
 
 
-  Scenario: Hogwarts user get a hogwarts repository should see the permissions
+  Scenario: Toppco user get a toppco repository should see the permissions
 
       Given the existing user "cuthbert"
         And the user is logged in
@@ -55,7 +55,7 @@ Feature: Restrictions on repository endpoint
         And response "data" should be an object with "permissions" of type "list"
 
 
-  Scenario: Global admin get a hogwarts repository should see the permissions
+  Scenario: Global admin get a toppco repository should see the permissions
 
       Given the existing user "testadmin"
         And the user is logged in

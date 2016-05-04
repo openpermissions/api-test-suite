@@ -148,7 +148,7 @@ def set_services(context):
     sess = make_session(config.CA_CRT)
     token = sess.post(
         '{}/login'.format(config.SERVICES['accounts']),
-        data=json.dumps({'email': 'copyright.hub@example.com',
+        data=json.dumps({'email': 'opp@example.com',
                          'password': 'password'})
     ).json()['data']['token']
     registered_services = sess.get(

@@ -30,8 +30,8 @@ JSON_KEYS = [
 VALUES = [
     'testcopictureid',
     '{format}-{row}-{total}',
-    ('https://www.copyrighthub.org/s0/hub1/offer/chub/1~https://www.copyrighthub.org/s0/hub1/offer/chub/2~'
-     'https://www.copyrighthub.org/s0/hub1/offer/chub/3~https://www.copyrighthub.org/s0/hub1/offer/chub/4'),
+    ('https://https://openpermissions/s0/hub1/offer/chub/1~https://https://openpermissions/s0/hub1/offer/chub/2~'
+     'https://https://openpermissions/s0/hub1/offer/chub/3~https://https://openpermissions/s0/hub1/offer/chub/4'),
     'This is description {row}'
 ]
 
@@ -143,7 +143,7 @@ def should_receive_identifiers(context, n):
             entity_type, asset['entity_type'])
         assert asset['entity_type'] == entity_type, msg
 
-        hub_key_template = "https://copyrighthub.org/s1/hub1/{}/{}/".format(
+        hub_key_template = "https://openpermissions.org/s1/hub1/{}/{}/".format(
             context.repository['id'], entity_type)
 
         expected_hub_key = re.compile(hub_key_template + '[0-9a-f]{32}')

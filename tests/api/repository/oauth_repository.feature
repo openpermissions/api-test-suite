@@ -55,7 +55,7 @@ Feature: Access repositories that are authenticated with oauth
 
 
   Scenario: Connect to repository endpoint requiring auth with token for service
-      Given the client has an access token granting "write" access to the "hogwarts" "repository" service
+      Given the client has an access token granting "write" access to the "toppco" "repository" service
         And the "assets" endpoint for the repository
 
        When I make a "POST" request with the repository id

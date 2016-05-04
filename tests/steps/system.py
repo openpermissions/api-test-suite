@@ -74,7 +74,7 @@ def convert_assets_to_csv(assets):
 
 def delegate_scope(context):
     return Delegate(
-        context.organisation_services['hogwarts']['onboarding'][0]['location'],
+        context.organisation_services['toppco']['onboarding'][0]['location'],
         Write(context.repository['id']))
 
 
