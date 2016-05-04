@@ -231,7 +231,7 @@ Feature: The Services endpoint
           | cathy |
 
 
-  Scenario Outline: A user who is not an admin update service state
+  Scenario Outline: A user who is not an admin approve service state
       Given the existing user "<user>"
         And the user is logged in
         And Header "Authorization" is a valid token

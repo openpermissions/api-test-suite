@@ -330,6 +330,13 @@ def get_approved_organisation_service(context, organisation_id, service_type):
         approve_service(context)
 
 
+@given('"{organisation_id}" has a pending "{service_type}" service')
+def get_approved_organisation_service(context, organisation_id, service_type):
+    service = get_organisation_service(context, organisation_id, service_type)
+    if service['state'] != 'pending':
+        pending_service(context)
+
+
 @given(u'the repository "{repository_name}" belonging to "{organisation_id}"')
 def organisation_and_its_repository(context, repository_name, organisation_id):
     try:
@@ -374,7 +381,7 @@ def join_organisation(context):
     context.clean_execute_steps("""
         Given the "accounts" service
           And Header "Authorization" is a valid token
-          And parameter "join_state" is "approved"
+          And parameter "state" is "approved"
           And Header "Content-Type" is "application/json"
           And Header "Accept" is "application/json"
          When I make a "PUT" request to the "user organisation" endpoint with user & organisation IDs
@@ -395,7 +402,8 @@ def get_org_admin_user(context, role):
           And Header "Authorization" is a valid token
           And Header "Content-Type" is "application/json"
           And Header "Accept" is "application/json"
-          And parameter "role_id" is "{}"
+          And parameter "role" is "{}"
+          And parameter "state" is "approved"
           And the existing user "{}"
          When I make a "PUT" request to the "user organisation" endpoint with user & organisation IDs
     """.format(role, orig_user['id']))
@@ -517,6 +525,19 @@ def approve_service(context):
           And Header "Authorization" is a valid token
           And Header "Accept" is "application/json"
           And parameter "state" is "approved"
+        When I make a "PUT" request to the "service" endpoint with the service id
+    """)
+
+
+@given(u"the service is pending")
+def pending_service(context):
+    context.clean_execute_steps("""
+        Given the "accounts" service
+          And the existing user "testadmin"
+          And the user is logged in
+          And Header "Authorization" is a valid token
+          And Header "Accept" is "application/json"
+          And parameter "state" is "pending"
         When I make a "PUT" request to the "service" endpoint with the service id
     """)
 

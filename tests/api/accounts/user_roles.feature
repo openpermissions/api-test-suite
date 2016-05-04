@@ -62,7 +62,7 @@ Feature: The User Roles endpoint with the user id
         And the user is logged in
         And Header "Authorization" is a valid token
         And the existing user "harry"
-        And parameter "role_id" is "user"
+        And parameter "role" is "user"
         And Header "Accept" is "application/json"
 
        When I make a "POST" request to the "user roles" endpoint with the user id
@@ -81,7 +81,7 @@ Feature: The User Roles endpoint with the user id
         And the user is logged in
         And Header "Authorization" is a valid token
         And the existing user "harry"
-        And parameter "role_id" is "invalid_role_id"
+        And parameter "role" is "invalid_role_id"
         And Header "Accept" is "application/json"
 
        When I make a "POST" request to the "user roles" endpoint with the user id
@@ -130,7 +130,7 @@ Feature: The User Roles endpoint with the user id
       Given the existing user "testadmin"
         And the user is logged in
         And Header "Authorization" is a valid token
-        And parameter "role_id" is "user"
+        And parameter "role" is "user"
         And Header "Accept" is "application/json"
 
        When I make a "POST" request to the "user roles" endpoint with "invalid_user_id"
@@ -146,7 +146,7 @@ Feature: The User Roles endpoint with the user id
       Given the existing user "testadmin"
         And the user is logged in
         And Header "Authorization" is a valid token
-        And parameter "role_id" is "user"
+        And parameter "role" is "user"
         And Header "Accept" is "application/json"
 
        When I make a "POST" request to the "user roles" endpoint
@@ -160,7 +160,7 @@ Feature: The User Roles endpoint with the user id
 
   Scenario: Update Global Role for a user without authentication
       Given the existing user "harry"
-        And parameter "role_id" is "user"
+        And parameter "role" is "user"
         And Header "Accept" is "application/json"
 
        When I make a "POST" request to the "user roles" endpoint with the user id
@@ -174,7 +174,7 @@ Feature: The User Roles endpoint with the user id
 
   Scenario: Update Global Role for a user without authentication and with invalid parameters
       Given the existing user "harry"
-        And parameter "role_id" is "invalid_role_id"
+        And parameter "role" is "invalid_role_id"
         And Header "Accept" is "application/json"
 
        When I make a "POST" request to the "user roles" endpoint with the user id
@@ -191,7 +191,7 @@ Feature: The User Roles endpoint with the user id
         And the user is logged in
         And Header "Authorization" is a valid token
         And the existing user "katie"
-        And parameter "role_id" is "user"
+        And parameter "role" is "user"
         And Header "Accept" is "application/json"
 
        When I make a "POST" request to the "user roles" endpoint with the user id
@@ -208,7 +208,7 @@ Feature: The User Roles endpoint with the user id
         And the user is logged in
         And Header "Authorization" is a valid token
         And the existing user "katie"
-        And parameter "role_id" is "invalid_role_id"
+        And parameter "role" is "invalid_role_id"
         And Header "Accept" is "application/json"
 
        When I make a "POST" request to the "user roles" endpoint with the user id
