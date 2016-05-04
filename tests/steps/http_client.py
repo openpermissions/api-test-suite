@@ -428,6 +428,19 @@ def set_request_body(context, key, value):
     context.body[key] = value
 
 
+@then('response "{first_object}" should contain an "{second_object}" object with the {obj} {attr} "{third_object}" of value "{value}"')
+def check_inner_object_has_value(context, first_object, second_object, obj, attr, third_object, value):
+    "Check that an object within an object has a key"
+    item = context.response_object
+    assert first_object in item
+    assert second_object in item[first_object]
+
+    attribute = getattr(context, obj)[attr]
+    assert attribute in item[first_object][second_object]
+    assert third_object in item[first_object][second_object][attribute]
+    assert item[first_object][second_object][attribute][third_object] == value
+
+
 @then('a "{first_object}" object with "{second_object}" object with the {obj} {attr}')
 @then('response "{first_object}" should contain a "{second_object}" object with the {obj} {attr}')
 @then('response "{first_object}" should contain an "{second_object}" object with the {obj} {attr}')

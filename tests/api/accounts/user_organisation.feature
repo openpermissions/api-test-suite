@@ -26,7 +26,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
         And response header "Content-Type" should be "application/json; charset=UTF-8"
         And response "data" should be an object with "id" of type "unicode"
         And response "data" should be an object with "name" of type "unicode"
-        And response "data" should be an object with "join_state" of type "unicode"
+        And response "data" should be an object with "state" of type "unicode"
         And response should not have key "errors"
 
 
@@ -76,7 +76,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
         And Header "Authorization" is a valid token
         And a new user
         And the user has requested to join the organisation
-        And parameter "join_state" is "approved"
+        And parameter "state" is "approved"
 
        When I make a "PUT" request to the "user organisation" endpoint with user & organisation IDs
 
@@ -88,6 +88,23 @@ Feature: The Users Organisation endpoint with the user and organisation id
         And response "data" should be an object with "organisations" of type "dictionary"
         And response should not have key "errors"
 
+  Scenario: Organisation admin update invalid state of user-organisation association
+      Given the existing organisation "hogwarts"
+        And the existing user "harry"
+        And the user is logged in
+        And Header "Authorization" is a valid token
+        And a new user
+        And the user has joined the organisation
+        And parameter "state" is "invalid_state"
+
+       When I make a "PUT" request to the "user organisation" endpoint with user & organisation IDs
+
+       Then I should receive a "403" response code
+        And response should have key "status" of 403
+        And response header "Content-Type" should be "application/json; charset=UTF-8"
+        And response should have array "errors" of size "1" with keys "source message"
+        And the errors should contain an object with "source" of "accounts"
+
   Scenario: Organisation admin update role of a user for an organisation
       Given the existing user "harry"
         And the user is logged in
@@ -97,7 +114,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
         And a new user
         And the user has joined the organisation
 
-        And parameter "role_id" is "user"
+        And parameter "role" is "user"
 
        When I make a "PUT" request to the "user organisation" endpoint with user & organisation IDs
 
@@ -131,8 +148,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
 
         Examples:
             | parameter  | value                  |
-            | join_state | invalid_state          |
-            | role_id    | invalid_role           |
+            | role       | invalid_role           |
             | foo        | bar                    |
 
 
@@ -142,7 +158,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
         And Header "Authorization" is a valid token
         And a new user
         And the user has requested to join the organisation
-        And parameter "join_state" is "approved"
+        And parameter "state" is "approved"
 
        When I make a "PUT" request to the "user organisation" endpoint with user & organisation IDs
 
@@ -154,6 +170,22 @@ Feature: The Users Organisation endpoint with the user and organisation id
         And response "data" should be an object with "organisations" of type "dictionary"
         And response should not have key "errors"
 
+  Scenario: Global admin update invalid state of user-organisation association
+      Given the existing user "testadmin"
+        And the user is logged in
+        And Header "Authorization" is a valid token
+        And a new user
+        And the user has joined the organisation
+        And parameter "state" is "invalid_state"
+
+       When I make a "PUT" request to the "user organisation" endpoint with user & organisation IDs
+
+       Then I should receive a "403" response code
+        And response should have key "status" of 403
+        And response header "Content-Type" should be "application/json; charset=UTF-8"
+        And response should have array "errors" of size "1" with keys "source message"
+        And the errors should contain an object with "source" of "accounts"
+
   Scenario: Global admin update role of a user for an organisation
       Given the existing user "testadmin"
         And the user is logged in
@@ -162,7 +194,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
         And a new user
         And the existing organisation "hogwarts"
         And the user has joined the organisation
-        And parameter "role_id" is "user"
+        And parameter "role" is "user"
 
        When I make a "PUT" request to the "user organisation" endpoint with user & organisation IDs
 
@@ -194,8 +226,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
 
         Examples:
             | parameter  | value                  |
-            | join_state | invalid_state          |
-            | role_id    | invalid_role           |
+            | role       | invalid_role           |
             | foo        | bar                    |
 
 
@@ -217,8 +248,8 @@ Feature: The Users Organisation endpoint with the user and organisation id
 
       Examples:
             | parameter  | value          |
-            | join_state | approved       |
-            | role_id    | user           |
+            | state      | approved       |
+            | role       | user           |
 
 
   Scenario Outline: Update user when the user does not exist
@@ -238,8 +269,8 @@ Feature: The Users Organisation endpoint with the user and organisation id
 
       Examples:
             | parameter  | value          |
-            | join_state | approved       |
-            | role_id    | user           |
+            | state      | approved       |
+            | role       | user           |
 
 
   Scenario Outline: Update user when the user has not joined the organisation
@@ -259,8 +290,8 @@ Feature: The Users Organisation endpoint with the user and organisation id
 
       Examples:
             | parameter  | value          |
-            | join_state | approved       |
-            | role_id    | user           |
+            | state      | approved       |
+            | role       | user           |
 
 
   Scenario: Set role for a user where join with organisation is not approved
@@ -271,12 +302,12 @@ Feature: The Users Organisation endpoint with the user and organisation id
         And the existing organisation "hogwarts"
         And a new user
         And the user has requested to join the organisation
-        And parameter "role_id" is "user"
+        And parameter "role" is "user"
 
        When I make a "PUT" request to the "user organisation" endpoint with user & organisation IDs
 
-       Then I should receive a "400" response code
-        And response should have key "status" of 400
+       Then I should receive a "403" response code
+        And response should have key "status" of 403
         And response header "Content-Type" should be "application/json; charset=UTF-8"
         And response should have array "errors" of size "1" with keys "source message"
         And the errors should contain an object with "source" of "accounts"
@@ -297,8 +328,8 @@ Feature: The Users Organisation endpoint with the user and organisation id
 
         Examples:
             | parameter  | value    |
-            | join_state | approved |
-            | role_id    | user     |
+            | state      | approved |
+            | role       | user     |
             | foo        | bar      |
 
   Scenario Outline: Unauthorized update user that does not belong to the organisation
@@ -321,8 +352,8 @@ Feature: The Users Organisation endpoint with the user and organisation id
 
         Examples:
         | parameter  | value    |
-        | join_state | approved |
-        | role_id    | user     |
+        | state      | approved |
+        | role       | user     |
         | foo        | bar      |
 
   Scenario Outline: Unauthenticated update user for an organisation
@@ -342,8 +373,8 @@ Feature: The Users Organisation endpoint with the user and organisation id
 
     Examples:
             | parameter  | value    |
-            | join_state | approved |
-            | role_id    | user     |
+            | state      | approved |
+            | role       | user     |
             | foo        | bar      |
 
 
@@ -365,8 +396,8 @@ Feature: The Users Organisation endpoint with the user and organisation id
 
         Examples:
         | parameter  | value    |
-        | join_state | approved |
-        | role_id    | user     |
+        | state      | approved |
+        | role       | user     |
         | foo        | bar      |
 
 
@@ -392,7 +423,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
        Then I should receive a "200" response code
         And response should have key "status" of 200
         And response header "Content-Type" should be "application/json; charset=UTF-8"
-        And response "data" should contain an "organisations" object without the organisation id
+        And response "data" should contain an "organisations" object with the organisation id "state" of value "deactivated"
         And response should not have key "errors"
 
        When I make a "GET" request to the "organisation" endpoint with the organisation id
@@ -415,7 +446,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
         And response header "Content-Type" should be "application/json; charset=UTF-8"
         And response "data" should be an object with "id" of type "unicode"
         And response "data" should be an object with "email" of type "unicode"
-        And response "data" should be an object with "verified" of type "bool"
+        And response "data" should be an object with "state" of type "unicode"
         And response "data" should be an object without "password"
         And response "data" should be an object without "verification_hash"
         And response should not have key "errors"
@@ -424,7 +455,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
        Then I should receive a "200" response code
         And response should have key "status" of 200
         And response header "Content-Type" should be "application/json; charset=UTF-8"
-        And response "data" should contain an "organisations" object without the organisation id
+        And response "data" should contain an "organisations" object with the organisation id "state" of value "deactivated"
         And response should not have key "errors"
 
        When I make a "GET" request to the "organisation" endpoint with the organisation id
@@ -469,7 +500,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
        Then I should receive a "200" response code
         And response should have key "status" of 200
         And response header "Content-Type" should be "application/json; charset=UTF-8"
-        And response "data" should contain an "organisations" object with the organisation id
+        And response "data" should contain an "organisations" object with the organisation id "state" of value "approved"
         And response should not have key "errors"
 
 
@@ -490,7 +521,7 @@ Feature: The Users Organisation endpoint with the user and organisation id
        Then I should receive a "200" response code
         And response should have key "status" of 200
         And response header "Content-Type" should be "application/json; charset=UTF-8"
-        And response "data" should contain an "organisations" object with the organisation id
+        And response "data" should contain an "organisations" object with the organisation id "state" of value "approved"
         And response should not have key "errors"
 
 

@@ -198,7 +198,7 @@ Feature: The Organisations endpoint
             | email      | "organisation@example.com" |
 
 
-  Scenario Outline: Organisation creator update a pending organisation by changing invalid param
+  Scenario Outline: Organisation creator update a pending organisation to invalid state
       Given a new organisation
         And parameter "<parameter>" is "<value>"
         And Header "Authorization" is a valid token
@@ -296,8 +296,8 @@ Feature: The Organisations endpoint
 
        When I make a "PUT" request to the "organisation" endpoint with the organisation id
 
-       Then I should receive a "400" response code
-        And response should have key "status" of 400
+       Then I should receive a "403" response code
+        And response should have key "status" of 403
         And response header "Content-Type" should be "application/json; charset=UTF-8"
         And response should have array "errors" of size "1" with keys "source message"
         And the errors should contain an object with "source" of "accounts"
@@ -455,12 +455,18 @@ Feature: The Organisations endpoint
         And response should have key "data"
         And response should not have key "errors"
 
+       When I make a "GET" request to the "organisation" endpoint with the organisation id
+
+       Then I should receive a "404" response code
+        And response should have key "status" of 404
+        And response header "Content-Type" should be "application/json; charset=UTF-8"
+
        When I make a "GET" request to the "user" endpoint with the user id
 
        Then I should receive a "200" response code
         And response should have key "status" of 200
         And response header "Content-Type" should be "application/json; charset=UTF-8"
-        And response "data" should contain an "organisations" object without the organisation id
+        And response "data" should contain an "organisations" object with the organisation id "state" of value "deactivated"
         And response should not have key "errors"
 
 
@@ -477,6 +483,12 @@ Feature: The Organisations endpoint
         And response header "Content-Type" should be "application/json; charset=UTF-8"
         And response should have key "data"
         And response should not have key "errors"
+
+       When I make a "GET" request to the "organisation" endpoint with the organisation id
+
+       Then I should receive a "404" response code
+        And response should have key "status" of 404
+        And response header "Content-Type" should be "application/json; charset=UTF-8"
 
        When I make a "GET" request to the "user" endpoint with the user id
 
@@ -528,7 +540,7 @@ Feature: The Organisations endpoint
        Then I should receive a "200" response code
         And response should have key "status" of 200
         And response header "Content-Type" should be "application/json; charset=UTF-8"
-        And response "data" should contain an "organisations" object with the organisation id
+        And response "data" should contain an "organisations" object with the organisation id "state" of value "approved"
         And response should not have key "errors"
 
 

@@ -24,12 +24,12 @@ Feature: The Users Organisations endpoint with the user id
        Then I should receive a "200" response code
         And response should have key "status" of 200
         And response header "Content-Type" should be "application/json; charset=UTF-8"
-        And response "data" should be an array of type "dictionary" with keys "id name join_state"
+        And response "data" should be an array of type "dictionary" with keys "id name state"
         And response should not have key "errors"
 
 
   Scenario: Get organisations for a user with query param
-      Given parameter "join_state" is "approved"
+      Given parameter "state" is "approved"
         And Header "Authorization" is a valid token
 
        When I make a "GET" request to the "user organisations" endpoint with the user id
@@ -37,12 +37,12 @@ Feature: The Users Organisations endpoint with the user id
        Then I should receive a "200" response code
         And response should have key "status" of 200
         And response header "Content-Type" should be "application/json; charset=UTF-8"
-        And response "data" should be an array of type "dictionary" with keys "id name join_state"
+        And response "data" should be an array of type "dictionary" with keys "id name state"
         And response should not have key "errors"
 
 
   Scenario: Get all organisations with invalid query param
-      Given parameter "join_state" is "bar"
+      Given parameter "state" is "bar"
         And Header "Authorization" is a valid token
 
        When I make a "GET" request to the "user organisations" endpoint with the user id
