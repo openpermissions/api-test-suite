@@ -202,7 +202,7 @@ def get_user(context, user_id):
 
     context.clean_execute_steps("""
         Given the "accounts" service
-          And parameter "email" is "copyright.hub@example.com"
+          And parameter "email" is "opp@example.com"
           And parameter "password" is "password"
           And Header "Content-Type" is "application/json"
           And Header "Accept" is "application/json"
@@ -346,8 +346,8 @@ def organisation_and_its_repository(context, repository_name, organisation_id):
         repository = create_repository(
             context, organisation_id, repository_name)
     context.repository = repository
-    # make sure hogwarts can access all repositories so they can be indexed
-    context.execute_steps('Given "hogwarts" may read from the repository')
+    # make sure toppco can access all repositories so they can be indexed
+    context.execute_steps('Given "toppco" may read from the repository')
     context.repositories[repository_name] = repository
 
 

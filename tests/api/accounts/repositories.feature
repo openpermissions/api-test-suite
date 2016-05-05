@@ -12,7 +12,7 @@ Feature: The Repositories endpoint
       Given the "accounts" service
         And the existing user "harry"
         And the user is logged in
-        And the existing organisation "hogwarts" with a "repository" service
+        And the existing organisation "toppco" with a "repository" service
         And the service contains a repository owned by the organisation
         And the service is approved
 

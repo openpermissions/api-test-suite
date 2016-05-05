@@ -294,7 +294,7 @@ def get_login_token(context):
     # Log in to accounts service
     with context.keep_request_data():
         context.headers['Content-Type'] = 'application/json'
-        context.params['email'] = 'copyright.hub@example.com'
+        context.params['email'] = 'opp@example.com'
         context.params['password'] = 'password'
         context.body = None  # make sure the body is cleared
         make_request(context,

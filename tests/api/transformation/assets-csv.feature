@@ -12,7 +12,7 @@ Feature: Assets endpoint handles CSV
       Given the "transformation" service
         And the "assets" endpoint
         And the client ID is the "testco" "external" service ID
-        And the client has an access token granting "write" access to the "hogwarts" "transformation" service
+        And the client has an access token granting "write" access to the "toppco" "transformation" service
         And Header "Content-Type" is "text/csv; charset=utf-8"
 
 

@@ -39,7 +39,7 @@ def asset_is_indexed(context):
         while (time_elapsed < 60):
             context.clean_execute_steps(u"""
             Given the client ID is the "testco" "external" service ID
-            And the client has an access token granting "read" access to the "hogwarts" "index" service
+            And the client has an access token granting "read" access to the "toppco" "index" service
             Given the "index" service
             And the "/entity-types/asset/id-types/{source_id_type}/ids/{source_id}/repositories" endpoint
             And Header "Accept" is "application/json"

@@ -10,7 +10,7 @@ Feature: Search for repositories containing entities
 
   Background:
       Given the client ID is the "testco" "external" service ID
-        And the client has an access token granting "read" access to the "hogwarts" "index" service
+        And the client has an access token granting "read" access to the "toppco" "index" service
 
   Scenario: Retrieve repositories
       Given a "valid" offer

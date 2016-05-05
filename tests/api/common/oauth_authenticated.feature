@@ -21,8 +21,8 @@ Feature: Access services that are authenticated with oauth
 
   Scenario Outline: Connect to service with no token
       Given the "<service>" service
-        And "testco" may read from the "hogwarts" "<service>" service
-        And "testco" may write to the "hogwarts" "<service>" service
+        And "testco" may read from the "toppco" "<service>" service
+        And "testco" may write to the "toppco" "<service>" service
 
         And there is no access token
 
@@ -46,8 +46,8 @@ Feature: Access services that are authenticated with oauth
 
   Scenario Outline: Connect to service requiring read oauth with write token
       Given the "<service>" service
-        And "testco" may write to the "hogwarts" "<service>" service
-        And the client has an access token granting "write" access to the "hogwarts" "<service>" service
+        And "testco" may write to the "toppco" "<service>" service
+        And the client has an access token granting "write" access to the "toppco" "<service>" service
 
        When I make a "GET" request to the "<endpoint>" endpoint
 
@@ -65,7 +65,7 @@ Feature: Access services that are authenticated with oauth
 
   Scenario Outline: Connect to service requiring write oauth with read token
       Given the "<service>" service
-        And "testco" may read from the "hogwarts" "<service>" service
+        And "testco" may read from the "toppco" "<service>" service
         And the client has an access token granting "read" access
 
        When I make a "POST" request to the "<endpoint>" endpoint

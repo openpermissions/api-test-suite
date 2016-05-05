@@ -20,7 +20,7 @@ Feature: Access repositories using delegated oauth
       Given the client ID is the "testco" "external" service ID
         And "testco" may write to the repository
         And "testco" may write to the repository's service
-        And "testco" may write to the "hogwarts" "onboarding" service
+        And "testco" may write to the "toppco" "onboarding" service
 
       Given the "onboarding" service
         And the "assets" endpoint for the repository
@@ -36,7 +36,7 @@ Feature: Access repositories using delegated oauth
 
 
   Scenario: Connect to onboarding endpoint with write token to onboarding service
-      Given the client has an access token granting "write" access to the "hogwarts" "onboarding" service
+      Given the client has an access token granting "write" access to the "toppco" "onboarding" service
 
        When I make a "POST" request
 

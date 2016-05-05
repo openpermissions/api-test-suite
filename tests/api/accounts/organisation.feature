@@ -8,7 +8,7 @@
 
 Feature: The Organisations endpoint
 
-  Background: the "accounts" service and harry the admin for hogwarts
+  Background: the "accounts" service and harry the admin for toppco
       Given the "accounts" service
         And the existing user "harry"
         And the user is logged in
@@ -59,7 +59,7 @@ Feature: The Organisations endpoint
 
 
   Scenario: Organisation with the same name already exists
-      Given the existing organisation "hogwarts"
+      Given the existing organisation "toppco"
         And parameter "name" is the organisation name
         And Header "Authorization" is a valid token
 
@@ -111,7 +111,7 @@ Feature: The Organisations endpoint
 
 
   Scenario: Get organisation
-      Given the existing organisation "hogwarts"
+      Given the existing organisation "toppco"
         And Header "Authorization" is a valid token
 
        When I make a "GET" request to the "organisation" endpoint with the organisation id
@@ -304,7 +304,7 @@ Feature: The Organisations endpoint
 
 
   Scenario Outline: Organisation admin update an approved organisation by changing param
-      Given the existing organisation "hogwarts"
+      Given the existing organisation "toppco"
         And the existing user "harry"
         And the user is logged in
         And parameter "<parameter>" is <value>
@@ -328,7 +328,7 @@ Feature: The Organisations endpoint
 
 
   Scenario Outline: Global admin update an approved organisation by changing param
-      Given the existing organisation "hogwarts"
+      Given the existing organisation "toppco"
         And the existing user "testadmin"
         And the user is logged in
         And parameter "<parameter>" is <value>
@@ -398,7 +398,7 @@ Feature: The Organisations endpoint
   Scenario: Update an organisation with a name that already exists
       Given the existing user "testadmin"
         And the user is logged in
-        And the existing organisation "hogwarts"
+        And the existing organisation "toppco"
         And parameter "name" is the organisation name
         And the existing organisation "testco"
         And Header "Authorization" is a valid token
@@ -427,7 +427,7 @@ Feature: The Organisations endpoint
 
 
   Scenario: Unauthenticated PUT
-      Given the existing organisation "hogwarts"
+      Given the existing organisation "toppco"
         And parameter "name" is a unique string
 
        When I make a "PUT" request to the "organisation" endpoint with the organisation id

@@ -177,7 +177,7 @@ TESTCO_ASSET_IDTYPE = u'testcopictureid'
 COMMON_ASSET_DETAILS = {
     'organisation_id': u'testco',
     'organisation_repo': u'testco repo',
-    'resolver_id': u'copyrighthub.org',
+    'resolver_id': u'openpermissions.org',
     'hub_id': u'hub1',
     'source_id_type': u'testcopictureid'
 }
@@ -420,7 +420,7 @@ def generate_query(number, valid_id=True):
 def generate_random_id(keytype="testcoid"):
     uuidv = str(uuid.uuid4()).replace('-', '')
     if keytype == "hub_keyS0":
-        return "https://copyrighthub.org/s0/hub1/asset/testco/testcoid/%s"%(uuidv)
+        return "https://openpermissions.org/s0/hub1/asset/testco/testcoid/%s"%(uuidv)
     else:
         return uuidv
 
@@ -695,7 +695,7 @@ def query_for_asset(context, service):
                 service, context.service_name)
     )
     id_map = context.id_map
-    hub_key = 'https://copyrighthub.org/s0/hub1/asset/maryevans/{}/{}'.format(
+    hub_key = 'https://openpermissions.org/s0/hub1/asset/maryevans/{}/{}'.format(
         id_map['source_id_type'],
         id_map['source_id'])
     query_an_asset(context, 'hub_key', hub_key)
@@ -724,7 +724,7 @@ def query_for_asset(context, service):
                 service, context.service_name)
     )
     id_map = context.id_map
-    hub_key = 'https://copyrighthub.org/s0/hub1/asset/maryevans/{}/{}'.format(
+    hub_key = 'https://openpermissions.org/s0/hub1/asset/maryevans/{}/{}'.format(
             id_map['source_id_type'],
             id_map['source_id'])
     body = [

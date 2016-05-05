@@ -1,4 +1,4 @@
 source_id_types,source_ids,description,offer_ids
-testcopictureid,100123,Sunset over á Cáribbeán beách,https://www.copyrighthub.org/s0/hub1/offer/chub/1~https://www.copyrighthub.org/s0/hub1/offer/chub/2
-testcopictureid~examplecopictureid,100456~999002,Polár beár on án ice floe,https://www.copyrighthub.org/s0/hub1/offer/chub/1~https://www.copyrighthub.org/s0/hub1/offer/chub/2~https://www.copyrighthub.org/s0/hub1/offer/chub/3~https://www.copyrighthub.org/s0/hub1/offer/chub/4
+testcopictureid,100123,Sunset over á Cáribbeán beách,https://https://openpermissions/s0/hub1/offer/chub/1~https://https://openpermissions/s0/hub1/offer/chub/2
+testcopictureid~examplecopictureid,100456~999002,Polár beár on án ice floe,https://https://openpermissions/s0/hub1/offer/chub/1~https://https://openpermissions/s0/hub1/offer/chub/2~https://https://openpermissions/s0/hub1/offer/chub/3~https://https://openpermissions/s0/hub1/offer/chub/4
 examplecopictureid,999001,Johnny Depp as Sweeney Todd,

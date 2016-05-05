@@ -10,7 +10,7 @@ Feature: Capabilities endpoint
 
   Background: Set up client service & permissions
       Given the client ID is the "testco" "external" service ID
-        And the client has an access token granting "read" access to the "hogwarts" "identity" service
+        And the client has an access token granting "read" access to the "toppco" "identity" service
 
       Given the "identity" service
         And the "capabilities" endpoint

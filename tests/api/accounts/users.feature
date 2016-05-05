@@ -210,7 +210,7 @@ Feature: The Users endpoint
 
   Scenario: Get a user with an ID for another type of resource
       Given the existing user "harry"
-        And the existing organisation "hogwarts"
+        And the existing organisation "toppco"
         And the user is logged in
         And Header "Authorization" is a valid token
         And Header "Accept" is "application/json"
@@ -354,7 +354,7 @@ Feature: The Users endpoint
   Scenario: Delete a user with an organisation
       Given a new user
         And the user is logged in
-        And the existing organisation "hogwarts"
+        And the existing organisation "toppco"
         And the user has joined the organisation
         And Header "Authorization" is a valid token
 

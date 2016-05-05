@@ -11,7 +11,7 @@ Feature: Send notifications to the index to ask it to update its index on specif
   Background: the "index" service
       Given the "index" service
         And the client ID is the "testco" "external" service ID
-        And the client has an access token granting "write" access to the "hogwarts" "index" service
+        And the client has an access token granting "write" access to the "toppco" "index" service
 
 
   Scenario: Send a notification to the server and have it accepted
