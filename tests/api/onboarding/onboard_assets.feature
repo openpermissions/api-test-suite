@@ -20,7 +20,7 @@ Feature: The Assets endpoint
 
       Given the "auth" service
         And the client ID is the "testco" "external" service ID
-        And the client has an access token granting write access to the repository via the "hogwarts" "onboarding" service
+        And the client has an access token granting write access to the repository via the "toppco" "onboarding" service
 
       Given the "onboarding" service
         And the "assets" endpoint for the repository
