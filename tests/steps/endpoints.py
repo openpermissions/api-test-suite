@@ -22,6 +22,7 @@ ENDPOINTS = {
         'repositories': '/repositories',
         'repository': '/repositories/{}',
         'login': '/login',
+        'links': '/links',
         'organisations': '/organisations',
         'organisation': '/organisations/{}',
         'organisation repositories': '/organisations/{}/repositories',

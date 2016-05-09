@@ -553,3 +553,25 @@ def approve_repository(context):
           And parameter "state" is "approved"
         When I make a "PUT" request to the "repository" endpoint with the repository id
     """)
+
+@given(u"the toppco reference link for \"{idtype}\" has been set to \"{url}\"")
+def set_toppco_reference_link(context, idtype, url):
+    context.reference_link = {idtype: url}
+    context.clean_execute_steps("""
+      Given the "accounts" service
+        And the existing organisation "toppco"
+        And the existing user "harry"
+        And the user is logged in
+        And parameter "reference_links" is the reference_link
+        And Header "Authorization" is a valid token
+
+       When I make a "PUT" request to the "organisation" endpoint with the organisation id
+
+       Then I should receive a "200" response code
+        And response should have key "status" of 200
+        And response header "Content-Type" should be "application/json; charset=UTF-8"
+        And response "data" should be an object with "id" of type "unicode"
+        And response "data" should be an object with "name" of type "unicode"
+        And response "data" should be an object with "state" of type "unicode"
+        And response should not have key "errors"
+    """)
