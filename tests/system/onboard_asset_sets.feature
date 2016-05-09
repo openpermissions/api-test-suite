@@ -11,10 +11,9 @@ Feature: Asset Onboarding
       Given the default repository is created
         And I am using a "testco" client
 
-
   Scenario Outline: Onboard an Asset with Offers and then Query the Asset
       Given "3" offers with sets have already been onboarded
-        And I onboard an asset in "<format>" format for the offers
+        And I onboard an asset in "<format>" format for the offer sets
         And we wait 15 seconds
 
        When I query for the offers for the asset

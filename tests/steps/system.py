@@ -115,6 +115,7 @@ def create_default_repo(context):
     ))
 
 
+@given(u'I onboard an asset in "{format}" format for the offer sets')
 @given(u'I onboard an asset in "{format}" format for the offers')
 def onboard_asset(context, format='json'):
     token = get_auth_token(context, delegate_scope(context))
