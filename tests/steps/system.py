@@ -32,7 +32,7 @@ def generate_offer_ids(context, count):
         yield context.offer_ids[i]
 
 
-def make_asset(offer_ids):
+def make_asset(offer_ids, set_ids):
     """
     Create an asset dictionary for onboarding service
     :param offer_ids: the offers available on the asset
@@ -47,7 +47,8 @@ def make_asset(offer_ids):
             }
         ],
         'description': 'A picture with id {}'.format(source_id),
-        'offer_ids': list(offer_ids)
+        'offer_ids': list(offer_ids),
+        'set_ids': list(set_ids)
     }
     return asset
 
@@ -58,7 +59,7 @@ def convert_assets_to_csv(assets):
     :param assets: a list of asset in dictionary format
     :returns: a sting representing the csv format of the assets
     """
-    headers = 'source_id_types,source_ids,offer_ids,description'
+    headers = 'source_id_types,source_ids,offer_ids,description,set_ids'
     result = [headers]
     for asset in assets:
         source_ids = asset['source_ids']
@@ -66,8 +67,9 @@ def convert_assets_to_csv(assets):
                                     for item in source_ids])
         source_ids = '~'.join([item['source_id'] for item in source_ids])
         offer_ids = '~'.join(asset['offer_ids'])
+        set_ids = '~'.join(asset['set_ids'])
         description = asset.get('description', '')
-        row = ','.join([source_id_types, source_ids, offer_ids, description])
+        row = ','.join([source_id_types, source_ids, offer_ids, description, set_ids])
         result.append(row)
     return '\n'.join(result)
 
@@ -113,10 +115,11 @@ def create_default_repo(context):
     ))
 
 
+@given(u'I onboard an asset in "{format}" format for the offer sets')
 @given(u'I onboard an asset in "{format}" format for the offers')
 def onboard_asset(context, format='json'):
     token = get_auth_token(context, delegate_scope(context))
-    context.asset = make_asset(context.offer_ids)
+    context.asset = make_asset(getattr(context, "offer_ids", []), getattr(context, "set_ids", []))
     if format == 'json':
         headers = {
             'Content-Type': 'application/json; charset=utf-8',
@@ -241,7 +244,7 @@ def onboard_asset_with_supplier(context):
         'Accept': 'application/json',
         'Accept-Charset': 'utf-8',
         'Authorization': 'Bearer ' + token}
-    context.asset = make_asset(generate_offer_ids(context, count=1))
+    context.asset = make_asset(generate_offer_ids(context, count=1),[])
     endpoint = '{}/repositories/{}/assets'.format(
         context.services['onboarding'],
         context.repository['id']

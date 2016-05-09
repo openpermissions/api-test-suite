@@ -77,26 +77,36 @@ id:{id} a op:Asset ;
         dct:modified "{modified}"^^xsd:dateTime .
 """
 
-
-ASSET_INDIRECT_OFFER_TEMPLATE = """
-{prefixes}
-
+OFFER_ASSET_SELECTOR1 = """
 id:{offer_id} a op:Policy, odrl:Offer ;
     odrl:target id:{offer_id}5e1ec104  .
 
 id:{offer_id}5e1ec104 a op:AssetSelector ;
     op:count "1"^^xsd:integer ;
-    op:fromSet id:{offer_id}501 ;
-    op:selectPolicy op:selected_by_assignee.
+    op:fromSet id:{set_id} ;
+    op:selectPolicy op:selected_by_assignee .
+"""
 
-id:{offer_id}501 a op:AssetSet ;
+ASSET_INDIRECT_OFFER_TEMPLATE = """
+{prefixes}
+""" + OFFER_ASSET_SELECTOR1 + """
+
+id:{set_id} a op:AssetSet ;
     op:hasElement id:{id} .
 
 id:{id} a  op:Asset;
         dct:modified "{modified}"^^xsd:dateTime .
 """
 
+ASSET_INDIRECT_SET_TEMPLATE = """
+{prefixes}
 
+id:{set_id} a op:AssetSet ;
+    op:hasElement id:{id} .
+
+id:{id} a  op:Asset;
+        dct:modified "{modified}"^^xsd:dateTime .
+"""
 
 OFFER_TEMPLATE = """
 {prefixes}
@@ -188,7 +198,7 @@ def set_context_body(context, attr):
     context.body = getattr(context, attr.replace(' ', '_'))
 
 
-def generate_offer(offer_id, expiry_date=None, indirect=False):
+def generate_offer(offer_id, expiry_date=None, set_id=None):
     date = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     offer_ttl = OFFER_TEMPLATE.format(
         prefixes=COMMON_PREFIXES,
@@ -198,6 +208,13 @@ def generate_offer(offer_id, expiry_date=None, indirect=False):
     )
     graph = Graph()
     graph.parse(data=offer_ttl, format='turtle')
+    if set_id:
+        graph.parse(
+            COMMON_PREFIXES + "\n" + OFFER_ASSET_SELECTOR1.format(
+                        offer_id=offer_id,
+                        set_id=set_id
+            )
+        )
     if expiry_date:
         triple = (
             URIRef("http://openpermissions.org/ns/id/"+offer_id),
@@ -233,6 +250,13 @@ def valid_offer(context, state=None, expiry_date=None, random_id=None):
     elif state == "invalid":
         context.body = 'invalid data'
 
+
+
+@given(u'request body is an indirect offer for set "{set_id}"')
+def valid_offer_set(context, set_id=None):
+    offer_id = generate_random_id()
+    context.offer = {'id': offer_id}
+    context.body = generate_offer(offer_id, None)
 
 @given(u'an "{state}" offer with id "{offer_id}"')
 @given(u'a "{state}" offer with id "{offer_id}"')
@@ -282,6 +306,27 @@ def add_an_offer(context, state, offer_id=None):
         context.offer = {'id': generate_random_id()}
     else:
         assert False
+
+def add_offer_and_set(context, state, offer_id=None):
+    background = """
+    Given the "repository" service
+    And the repository "testco repo" belonging to "testco"
+    And the "offers" endpoint for the repository
+    And the client ID is the "testco" "external" service ID
+    And the client has an access token granting "write" access to the repository
+    """
+    set_id = "a"+str(uuid.uuid4())[1:]
+    context.clean_execute_steps(u"""{background}
+    And Header "Content-Type" is "application/ld+json"
+    And request body is an indirect offer for set "{set_id}"
+    When I make a "POST" request""".format(background=background, set_id=set_id))
+    context.offer = {"id": context.response_object['data']['id']}
+    if hasattr(context, "offer_ids"):
+        context.offer_ids.append(context.response_object['data']['id'])
+    if not hasattr(context, "set_ids"):
+        context.set_ids = []
+    context.set_ids.append(set_id)
+    check_success(context)
 
 
 @given(u'an agreement for an offer for party "{party_id}"')
@@ -451,6 +496,21 @@ def add_offers(context, no_of_lic_offs):
             context.offer_ids.append(context.offer['id'])
 
 
+@given(u'"{no_of_lic_offs}" offers with sets have already been onboarded')
+def add_offer_sets(context, no_of_lic_offs):
+    try:
+        no_of_lic_offs = int(no_of_lic_offs)
+    except ValueError:
+        raise ValueError("Number of offers must be a number")
+
+    context.offer_ids = []
+
+    for _ in range(no_of_lic_offs):
+        add_offer_and_set(context, "valid")
+        if context.offer['id'] not in context.offer_ids:
+            context.offer_ids.append(context.offer['id'])
+
+
 @given(u'body is a "{state}" xml asset')
 @given(u'body is an "{state}" xml asset')
 @given(u'body is "{state}" an xml asset')
@@ -503,7 +563,7 @@ def generate_asset_xml(offer_ids, asset_ttl, entity_id):
     return asset_xml
 
 
-def generate_indirect_asset_xml(offer_ids, asset_ttl, entity_id):
+def generate_indirect_asset_xml(asset_ttl, entity_id, offer_ids=[], set_ids=[]):
     graph = Graph()
     graph.parse(data=asset_ttl, format='turtle')
     for offer_id in offer_ids:
@@ -511,8 +571,20 @@ def generate_indirect_asset_xml(offer_ids, asset_ttl, entity_id):
             prefixes=COMMON_PREFIXES,
             id=entity_id,
             offer_id=offer_id,
+            set_id=offer_id+"5e4",
             modified=isoformat(datetime.utcnow())
         )
+
+        graph.parse(data=asset_offer_ttl, format='turtle')
+
+    for set_id in set_ids:
+        asset_offer_ttl = ASSET_INDIRECT_SET_TEMPLATE.format(
+            prefixes=COMMON_PREFIXES,
+            id=entity_id,
+            set_id=set_id,
+            modified=isoformat(datetime.utcnow())
+        )
+
         graph.parse(data=asset_offer_ttl, format='turtle')
 
     asset_xml = graph.serialize(format='xml')
@@ -554,7 +626,7 @@ def add_asset_for_offers(context, asset):
     if asset == "asset":
         asset_xml = generate_asset_xml(offer_ids, asset_ttl, entity_ids[0])
     if asset == "indirect asset":
-        asset_xml = generate_indirect_asset_xml(offer_ids, asset_ttl, entity_ids[0])
+        asset_xml = generate_indirect_asset_xml(asset_ttl, entity_ids[0], offer_ids=offer_ids)
 
     context.body = asset_xml
     hub_key = TEMPLATE_HUBKEY.format(
@@ -797,7 +869,6 @@ def get_query(context, number):
     for i in range(number):
         result.append(get_query_object(context))
     return result
-
 
 
 def get_query_object(context):
