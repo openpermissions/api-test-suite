@@ -14,13 +14,13 @@ Feature: Ability to set redirect URIs in organisations
         And the user is logged in
         And the existing organisation "toppco"
 
-
   Scenario: List reference links associated with an unknown id_type
       Given parameter "source_id" is a unique string
         And parameter "source_id_type" is "unknowndemoidtype"
         And Header "Authorization" is a valid token
         And Header "Content-Type" is "application/json"
         And Header "Accept" is "application/json"
+
 
        When I make a "POST" request to the "links" endpoint
 
@@ -36,7 +36,7 @@ Feature: Ability to set redirect URIs in organisations
         And Header "Authorization" is a valid token
         And Header "Content-Type" is "application/json"
         And Header "Accept" is "application/json"
-        And the toppco reference link for "demoidtype" has been set to "http://www.demoidtype"
+        And the "toppco" reference link for "demoidtype" has been set to "http://www.demoidtype"
 
        When I make a "POST" request to the "links" endpoint
 

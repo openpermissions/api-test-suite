@@ -52,7 +52,10 @@ def get_request(context, url):  # todo : lots
         kwargs['auth'] = context.auth
 
     context.response = context.http_client.get(url, **kwargs)
-    context.response_object = context.response.json()
+    try:
+        context.response_object = context.response.json()
+    except:
+        pass
 
 
 def delete_request(context, url):
@@ -489,6 +492,4 @@ def check_inner_object_has_a_key_of_a_certain_type(context, first_object, second
     assert first_object in item
     assert second_object in item[first_object]
     assert not hasattr(item[first_object][second_object], attribute_name)
-
-
 

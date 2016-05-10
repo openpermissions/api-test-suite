@@ -126,6 +126,7 @@ def clean_execute_steps(context, steps_text, save_response_data=None):
 
 def make_session(verify):
     sess = requests.Session()
+    sess.allow_redirects = False
     sess.verify = verify
     return sess
 

@@ -95,6 +95,11 @@ ENDPOINTS = {
         'capabilities': '/capabilities',
         'root': ''},
 
+
+    'resolution': {'root': '',
+                   'resolv': '{}',
+                  },
+
     'template': {'root': ''},
 
     'transformation': {

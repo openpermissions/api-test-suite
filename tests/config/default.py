@@ -17,6 +17,7 @@ SERVICES = {
     'transformation': 'https://localhost:8005/{}/transformation'.format(API_VERSION),
     'accounts': 'https://localhost:8006/{}/accounts'.format(API_VERSION),
     'auth': 'https://localhost:8007/{}/auth'.format(API_VERSION),
+    'resolution': 'https://localhost:8009/{}/auth'.format(API_VERSION),
     'template': 'https://localhost:9000/{}/template'.format(API_VERSION),
     'query': 'https://localhost:8008/{}/query'.format(API_VERSION)
 }

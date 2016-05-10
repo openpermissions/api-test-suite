@@ -47,7 +47,7 @@ JSON_LD_CONTEXT.update({
 
 COMMON_PREFIXES = "\n".join("@prefix %s: <%s> ." % i for i in PREFIXES.items())+"\n"
 TEMPLATE_HUBKEY = "https://openpermissions.org/s1/hub1/{repo_id}/{id_type}/{id}"
-
+TEMPLATE_HUBKEY_V0 = "https://openpermissions.org/s0/hub1/{entity_type}/{org_id}/{source_id_type}/{source_id}"
 ASSET_TEMPLATE = """
 {prefixes}
 
@@ -294,7 +294,8 @@ def add_an_offer(context, state, offer_id=None):
         context.clean_execute_steps(u"""{}
         And Header "Content-Type" is "application/ld+json"
         And request body is a "valid" offer with id "011C1C1"
-        When I make a "POST" request""".format(background))
+        When I make a "POST" request""".format(background)
+        )
         context.offer = {
                          "id": context.response_object['data']['id'],
                          "hub_key": context.response_object['data']['hub_key']
@@ -634,11 +635,19 @@ def add_asset_for_offers(context, asset):
         id_type=asset,
         id=unquote_plus(entity_ids[0].encode())
     )
+    hub_key0 = TEMPLATE_HUBKEY_V0.format(
+        entity_type = 'asset',
+        org_id = COMMON_ASSET_DETAILS["organisation_id"],
+        source_id_type = COMMON_ASSET_DETAILS['source_id_type'],
+        source_id=source_id
+    )
     context.id_map = {
         'source_id_type': COMMON_ASSET_DETAILS['source_id_type'],
         'source_id': source_id,
         'entity_id': unquote_plus(entity_ids[0].encode()),
-        'hub_key': hub_key
+        'hub_key': hub_key,
+        'hub_key1': '/'.join(hub_key.split('/')[3:]),
+        'hub_key0': '/'.join(hub_key0.split('/')[3:])
     }
     context.asset = {'id': entity_ids[0]}
 
