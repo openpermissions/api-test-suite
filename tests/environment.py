@@ -204,4 +204,7 @@ def before_all(context):
     for service, location in context.services.items():
         url = urlparse.urlparse(location)
         api = API(url.scheme + '://' + url.netloc, async=False)
-        context.api[service] = getattr(api, url.path.split('/')[2])
+        try:
+            context.api[service] = getattr(api, url.path.split('/')[2])
+        except:
+            context.api[service] = getattr(api, service)
