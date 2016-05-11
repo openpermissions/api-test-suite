@@ -15,13 +15,10 @@ Feature: The resolution service redirects when needed to target website
         And the existing organisation "toppco"
 
 
-
-# /s0/hub1/asset/testco/demoidtype/unknownid
-# /s1/hub1/{repo_id}/asset/f7777573033111e6b459acbc32a8c615
-
   Scenario: resolve correctly asset with a valid hk0
         Given a "valid" offer
         And an asset has been added for the given offer
+        And the asset has been indexed
         And Header "Content-Type" is "application/json"
         And Header "Accept" is "application/json"
 
@@ -88,11 +85,13 @@ Feature: The resolution service redirects when needed to target website
 #}
 
 
-  Scenario: resolve correctly asset with a hk0 to registered idtype
-
-        Given  Header "Content-Type" is "application/json"
+  Scenario: resolve correctly asset with a hk0 with an associated registered idtype
+        Given a "valid" offer
+        And an asset has been added for the given offer
+        And the additional id "demoidtype" "0123456789" has been attached to the asset
+        And the asset has been indexed
+        And Header "Content-Type" is "application/json"
         And Header "Accept" is "application/json"
-        And a hubkey s0 "s0/hub1/asset/testco/demoidtype/idIDidID1d"
         And the "toppco" reference link for "demoidtype" has been set to "http://www.toppco.com/"
         And the "testco/cathy" reference link for "demoidtype" has been set to "http://www.testco.com/"
         When I make a "GET" request to the "resolv" endpoint with the unescaped id_map hub_key0

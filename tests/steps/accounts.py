@@ -560,7 +560,7 @@ def set_toppco_reference_link(context, org_id, idtype, url, user="harry"):
         user = org_id.split("/")[1]
         org_id = org_id.split("/")[0]
 
-    context.reference_link = {idtype: url}
+    context.reference_link = {'links': {idtype: url}, 'redirect_id_type': idtype}
     context.clean_execute_steps("""
       Given the "accounts" service
         And the existing organisation "{org_id}"

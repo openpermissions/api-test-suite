@@ -71,7 +71,7 @@ ASSET_DIRECT_OFFER_TEMPLATE = """
 {prefixes}
 
 id:{offer_id} a op:Policy, odrl:Offer ;
-    odrl:target id:{id}  .
+    odrl:target id:{id} .
 
 id:{id} a op:Asset ;
         dct:modified "{modified}"^^xsd:dateTime .
