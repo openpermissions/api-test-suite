@@ -26,30 +26,6 @@ Feature: The resolution service redirects when needed to target website
 
         Then I should receive a "200" response code
 
-#REPLY_BODY_JSON = {
-#    "organisation_id": "testco",
-#    "entity_id": "f38a57a0f23a485da0853230d8c212dc",
-#    "entity_type": "asset",
-#    "hub_id": "hub1",
-#    "hub_key": "https://resolution:8009/s0/hub1/asset/testco/testcopictureid/f38a57a0f23a485da0853230d8c212dc",
-#    "schema_version": "s0",
-#    "id_type": "testcopictureid",
-#    "provider": {
-#        "website": "http://testco.digicat.io",
-#        "star_rating": 0,
-#        "name": "TestCo",
-#        "twitter": "DigiCatapult",
-#        "created_by": "testadmin",
-#        "id": "testco",
-#        "phone": "0300 1233 101",
-#        "state": "approved",
-#        "address": "Digital Catapult\n101 Euston Road London\nNW1 2RA",
-#        "email": "exampleco@digicat.io",
-#        "description": "A fictional company for testing purposes"
-#    },
-#    "resolver_id": "https://resolution:8009"
-#}
-
 
   Scenario: resolve correctly asset with a valid hk1
         Given a "valid" offer
@@ -60,30 +36,6 @@ Feature: The resolution service redirects when needed to target website
         When I make a "GET" request to the "resolv" endpoint with the unescaped id_map hub_key1
 
         Then I should receive a "200" response code
-
-# REPLY_BODY_JSON = {
-#    "repository_id": "0f9d91051b69462892630f080db18d6d",
-#    "entity_id": "4089330afee8404eb09b08d72ae9a25a",
-#    "entity_type": "asset",
-#    "hub_id": "hub1",
-#    "hub_key": "https://resolution:8009/s1/hub1/0f9d91051b69462892630f080db18d6d/asset/4089330afee8404eb09b08d72ae9a25a",
-#    "schema_version": "s1",
-#    "provider": {
-#        "website": "http://testco.digicat.io",
-#        "star_rating": 0,
-#        "name": "TestCo",
-#        "twitter": "DigiCatapult",
-#        "created_by": "testadmin",
-#        "id": "testco",
-#        "phone": "0300 1233 101",
-#        "state": "approved",
-#        "address": "Digital Catapult\n101 Euston Road London\nNW1 2RA",
-#        "email": "exampleco@digicat.io",
-#        "description": "A fictional company for testing purposes"
-#    },
-#    "resolver_id": "https://resolution:8009"
-#}
-
 
   Scenario: resolve correctly asset with a hk0 with an associated registered idtype
         Given a "valid" offer
