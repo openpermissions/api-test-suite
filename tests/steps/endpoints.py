@@ -96,8 +96,8 @@ ENDPOINTS = {
         'root': ''},
 
 
-    'resolution': {'root': '',
-                   'resolv': '{}',
+    'resolution': {'root': '/',
+                   'resolv': '/{}',
                   },
 
     'template': {'root': ''},
