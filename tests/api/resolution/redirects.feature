@@ -16,29 +16,28 @@ Feature: The resolution service redirects when needed to target website
 
 
   Scenario: resolve correctly asset with a valid hk0
-        Given a "valid" offer
+      Given a "valid" offer
         And an asset has been added for the given offer
         And the asset has been indexed
         And Header "Content-Type" is "application/json"
         And Header "Accept" is "application/json"
 
-        When I make a "GET" request to the "resolv" endpoint with the unescaped id_map hub_key0
+       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map hub_key0
 
-        Then I should receive a "200" response code
-
+       Then I should receive a "200" response code
 
   Scenario: resolve correctly asset with a valid hk1
-        Given a "valid" offer
+      Given a "valid" offer
         And an asset has been added for the given offer
         And Header "Content-Type" is "application/json"
         And Header "Accept" is "application/json"
 
-        When I make a "GET" request to the "resolv" endpoint with the unescaped id_map hub_key1
+       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map hub_key1
 
-        Then I should receive a "200" response code
+       Then I should receive a "200" response code
 
   Scenario: resolve correctly asset with a hk0 with an associated registered idtype
-        Given a "valid" offer
+      Given a "valid" offer
         And an asset has been added for the given offer
         And the additional id "demoidtype" "0123456789" has been attached to the asset
         And the asset has been indexed
@@ -46,20 +45,20 @@ Feature: The resolution service redirects when needed to target website
         And Header "Accept" is "application/json"
         And the "toppco" reference link for "demoidtype" has been set to "http://www.toppco.com/"
         And the "testco/cathy" reference link for "demoidtype" has been set to "http://www.testco.com/"
-        When I make a "GET" request to the "resolv" endpoint with the unescaped id_map hub_key0
 
-        Then I should receive a "301" response code
+       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map hub_key0
 
+       Then I should receive a "302" response code
 
   Scenario: resolve correctly asset with a hk1 with an associated registered idtype
-        Given a "valid" offer
+      Given a "valid" offer
         And an asset has been added for the given offer
         And the additional id "demoidtype" "0123456789" has been attached to the asset
         And Header "Content-Type" is "application/json"
         And Header "Accept" is "application/json"
         And the "toppco" reference link for "demoidtype" has been set to "http://www.toppco.com/"
         And the "testco/cathy" reference link for "demoidtype" has been set to "http://www.testco.com/"
-        When I make a "GET" request to the "resolv" endpoint with the unescaped id_map hub_key1
 
-        Then I should receive a "301" response code
+       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map hub_key1
 
+       Then I should receive a "302" response code
