@@ -127,7 +127,7 @@ def parameter_hub_key_does_not_exist(context):
 @when(u'I make a "{http_verb}" request to the "{endpoint}" endpoint')
 @when(u'I make a "{http_verb}" request to the "{endpoint}" endpoint with "{url_param}"')
 def make_request(context, http_verb, endpoint=None,
-                 url_param=None, path=None, service_name=None):
+                 url_param=None, path=None, service_name=None, escape_param=True):
 
     if service_name is None:
         service_name = context.service_name
@@ -141,12 +141,20 @@ def make_request(context, http_verb, endpoint=None,
 
     if url_param:
         if hasattr(url_param, '__iter__'):
-            path = path.format(*map(quote_plus, url_param))
+            if escape_param:
+                url_param = map(quote_plus, url_param)
+            path = path.format(*url_param)
         else:
-            path = path.format(quote_plus(url_param))
+            if escape_param:
+                url_param = quote_plus(url_param)
+            path = path.format(url_param)
 
     return request(http_verb, context, base_url + path)
 
+@when(u'I make a "{http_verb}" request with the unescaped {obj} {attr}')
+@when(u'I make a "{http_verb}" request to the "{endpoint}" endpoint with the unescaped {obj} {attr}')
+def make_request_with_attr(context, http_verb, obj, attr, endpoint=None):
+    make_request(context, http_verb, endpoint, getattr(context, obj)[attr], escape_param=False)
 
 @when(u'I make a "{http_verb}" request with the {obj} {attr}')
 @when(u'I make a "{http_verb}" request to the "{endpoint}" endpoint with the {obj} {attr}')
@@ -333,6 +341,17 @@ def grant_given_access(context, access, organisation_id, service):
 
     if response.status != 200:
         raise Exception('Error updating permissions')
+
+
+@given(u'the request body is the "{obj}" "{attr}"')
+def added_ids(context, obj, attr):
+    context.body = getattr(context, obj)[attr]
+
+
+@given(u'the request body is the "{obj}"')
+def added_ids(context, obj):
+    context.body = getattr(context, obj)
+
 
 
 def setup_access(context, organisation_id, access, service_org, service_type):

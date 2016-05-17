@@ -22,6 +22,7 @@ ENDPOINTS = {
         'repositories': '/repositories',
         'repository': '/repositories/{}',
         'login': '/login',
+        'links': '/links',
         'organisations': '/organisations',
         'organisation': '/organisations/{}',
         'organisation repositories': '/organisations/{}/repositories',
@@ -93,6 +94,11 @@ ENDPOINTS = {
         'identifiers': '/repositories/{}/assets/identifiers',
         'capabilities': '/capabilities',
         'root': ''},
+
+
+    'resolution': {'root': '/',
+                   'resolve': '/{}',
+                  },
 
     'template': {'root': ''},
 

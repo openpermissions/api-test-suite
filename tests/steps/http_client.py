@@ -45,6 +45,7 @@ def get_request(context, url):  # todo : lots
     kwargs = {
         'params': data,
         'headers': context.headers,
+        'allow_redirects': False,
         'timeout': DEFAULT_REQUEST_TIMEOUT  # todo: load from context
     }
 
@@ -52,7 +53,10 @@ def get_request(context, url):  # todo : lots
         kwargs['auth'] = context.auth
 
     context.response = context.http_client.get(url, **kwargs)
-    context.response_object = context.response.json()
+    try:
+        context.response_object = context.response.json()
+    except:
+        pass
 
 
 def delete_request(context, url):
@@ -384,6 +388,12 @@ def obj_has_non_empty_array(context, attribute_name):
     assert len(context.response_object[attribute_name]) != 0
 
 
+@then('response "{attribute_name}" is an empty array')
+def obj_has_non_empty_array(context, attribute_name):
+    assert isinstance(context.response_object[attribute_name], list)
+    assert len(context.response_object[attribute_name]) == 0
+
+
 @step('the request body is a list of the following items in "{format}" format')
 def req_is_list_in_format(context, format):
     if format == 'JSON':
@@ -483,6 +493,4 @@ def check_inner_object_has_a_key_of_a_certain_type(context, first_object, second
     assert first_object in item
     assert second_object in item[first_object]
     assert not hasattr(item[first_object][second_object], attribute_name)
-
-
 

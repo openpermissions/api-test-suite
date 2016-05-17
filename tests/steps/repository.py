@@ -47,7 +47,7 @@ JSON_LD_CONTEXT.update({
 
 COMMON_PREFIXES = "\n".join("@prefix %s: <%s> ." % i for i in PREFIXES.items())+"\n"
 TEMPLATE_HUBKEY = "https://openpermissions.org/s1/hub1/{repo_id}/{id_type}/{id}"
-
+TEMPLATE_HUBKEY_V0 = "https://openpermissions.org/s0/hub1/{entity_type}/{org_id}/{source_id_type}/{source_id}"
 ASSET_TEMPLATE = """
 {prefixes}
 
@@ -71,7 +71,7 @@ ASSET_DIRECT_OFFER_TEMPLATE = """
 {prefixes}
 
 id:{offer_id} a op:Policy, odrl:Offer ;
-    odrl:target id:{id}  .
+    odrl:target id:{id} .
 
 id:{id} a op:Asset ;
         dct:modified "{modified}"^^xsd:dateTime .
@@ -294,7 +294,8 @@ def add_an_offer(context, state, offer_id=None):
         context.clean_execute_steps(u"""{}
         And Header "Content-Type" is "application/ld+json"
         And request body is a "valid" offer with id "011C1C1"
-        When I make a "POST" request""".format(background))
+        When I make a "POST" request""".format(background)
+        )
         context.offer = {
                          "id": context.response_object['data']['id'],
                          "hub_key": context.response_object['data']['hub_key']
@@ -634,11 +635,19 @@ def add_asset_for_offers(context, asset):
         id_type=asset,
         id=unquote_plus(entity_ids[0].encode())
     )
+    hub_key0 = TEMPLATE_HUBKEY_V0.format(
+        entity_type = 'asset',
+        org_id = COMMON_ASSET_DETAILS["organisation_id"],
+        source_id_type = COMMON_ASSET_DETAILS['source_id_type'],
+        source_id=source_id
+    )
     context.id_map = {
         'source_id_type': COMMON_ASSET_DETAILS['source_id_type'],
         'source_id': source_id,
         'entity_id': unquote_plus(entity_ids[0].encode()),
-        'hub_key': hub_key
+        'hub_key': hub_key,
+        'hub_key1': '/'.join(hub_key.split('/')[3:]),
+        'hub_key0': '/'.join(hub_key0.split('/')[3:])
     }
     context.asset = {'id': entity_ids[0]}
 
@@ -864,6 +873,36 @@ def step_impl(context, number, query_type):
         assert False
 
 
+@given(u'the additional id \"{source_id_type}\" \"{source_id}\" has been attached to the asset')
+def added_ids(context, source_id_type, source_id):
+    context.id_to_be_attached = {
+        'ids': [
+            {
+             'source_id_type': source_id_type,
+             'source_id': source_id
+            }
+        ]
+    }
+
+    context.clean_execute_steps(u"""
+       Given the "repository" service
+        And the repository "testco repo" belonging to "testco"
+        And the client ID is the "testco" "external" service ID
+        And the client has an access token granting "write" access to the repository
+        And the request body is the "id_to_be_attached"
+        And Header "Content-Type" is "application/json"
+        And Header "Accept" is "application/json"
+        And the additional IDs endpoint for the new asset
+
+       When I make a "POST" request
+
+       Then I should receive a "200" response code
+        And response should have key "status" of 200
+        And response header "Content-Type" should be "application/json; charset=UTF-8"
+        And response should not have key "errors"
+     """)
+
+
 def get_query(context, number):
     result = []
     for i in range(number):
@@ -885,3 +924,4 @@ def get_query_object(context):
     # tests we will need more than one asset here.
 
     return body
+
