@@ -873,6 +873,36 @@ def step_impl(context, number, query_type):
         assert False
 
 
+@given(u'the additional id \"{source_id_type}\" \"{source_id}\" has been attached to the asset')
+def added_ids(context, source_id_type, source_id):
+    context.id_to_be_attached = {
+        'ids': [
+            {
+             'source_id_type': source_id_type,
+             'source_id': source_id
+            }
+        ]
+    }
+
+    context.clean_execute_steps(u"""
+       Given the "repository" service
+        And the repository "testco repo" belonging to "testco"
+        And the client ID is the "testco" "external" service ID
+        And the client has an access token granting "write" access to the repository
+        And the request body is the "id_to_be_attached"
+        And Header "Content-Type" is "application/json"
+        And Header "Accept" is "application/json"
+        And the additional IDs endpoint for the new asset
+
+       When I make a "POST" request
+
+       Then I should receive a "200" response code
+        And response should have key "status" of 200
+        And response header "Content-Type" should be "application/json; charset=UTF-8"
+        And response should not have key "errors"
+     """)
+
+
 def get_query(context, number):
     result = []
     for i in range(number):
@@ -894,3 +924,4 @@ def get_query_object(context):
     # tests we will need more than one asset here.
 
     return body
+

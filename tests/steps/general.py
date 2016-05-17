@@ -343,6 +343,17 @@ def grant_given_access(context, access, organisation_id, service):
         raise Exception('Error updating permissions')
 
 
+@given(u'the request body is the "{obj}" "{attr}"')
+def added_ids(context, obj, attr):
+    context.body = getattr(context, obj)[attr]
+
+
+@given(u'the request body is the "{obj}"')
+def added_ids(context, obj):
+    context.body = getattr(context, obj)
+
+
+
 def setup_access(context, organisation_id, access, service_org, service_type):
     service = get_existing_service(context, service_org, service_type)
     grant_given_access(context, access[0], organisation_id=organisation_id, service=service)

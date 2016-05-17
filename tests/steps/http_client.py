@@ -45,13 +45,13 @@ def get_request(context, url):  # todo : lots
     kwargs = {
         'params': data,
         'headers': context.headers,
+        'allow_redirects': False,
         'timeout': DEFAULT_REQUEST_TIMEOUT  # todo: load from context
     }
 
     if 'Authorization' not in context.headers and getattr(context, 'auth', None):
         kwargs['auth'] = context.auth
 
-    kwargs['allow_redirects'] = False
     context.response = context.http_client.get(url, **kwargs)
     try:
         context.response_object = context.response.json()
