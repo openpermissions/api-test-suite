@@ -14,89 +14,62 @@ Feature: The resolution service redirects when needed to target website
         And the user is logged in
         And the existing organisation "testco"
 
-
-  Scenario: resolve correctly with a valid hk0
-      Given the organisation has no reference links
         And a "valid" offer
         And an asset has been added for the given offer
         And the asset has been indexed
 
         And Header "Content-Type" is "application/json"
-        And Header "Accept" is "application/json"
 
-       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map hub_key0
-
-       Then I should receive a "200" response code
-
-  Scenario: resolve correctly with a valid hk1
+  Scenario Outline: resolve json correctly
       Given the organisation has no reference links
-        And a "valid" offer
-        And an asset has been added for the given offer
-        And Header "Content-Type" is "application/json"
         And Header "Accept" is "application/json"
 
-       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map hub_key1
-
+       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map <hub_key>
        Then I should receive a "200" response code
+    Examples:
+      | hub_key  |
+      | hub_key0 |
+      | hub_key1 |
 
-  Scenario: redirect correctly with a hk0 and redirect url without source id
+  Scenario Outline: resolve html correctly
+      Given the organisation has no reference links
+
+       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map <hub_key>
+       Then I should receive a "200" response code
+    Examples:
+      | hub_key  |
+      | hub_key0 |
+      | hub_key1 |
+
+  Scenario Outline: redirect correctly to redirect url without source id
       Given the organisation reference link and redirect for "testcopictureid" has been set to "http://www.example.com/"
 
-        And a "valid" offer
-        And an asset has been added for the given offer
-        And the asset has been indexed
-        And Header "Content-Type" is "application/json"
-        And Header "Accept" is "application/json"
-
-
-       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map hub_key0
-
+       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map <hub_key>
        Then I should receive a "302" response code
+    Examples:
+      | hub_key  |
+      | hub_key0 |
+      | hub_key1 |
 
-  Scenario: redirect correctly with a hk1 and redirect url without source id
-      Given the organisation reference link and redirect for "testcopictureid" has been set to "http://www.example.com/"
-        And a "valid" offer
-        And an asset has been added for the given offer
-        And Header "Content-Type" is "application/json"
-        And Header "Accept" is "application/json"
 
-       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map hub_key1
-
-       Then I should receive a "302" response code
-
-  Scenario: redirect correctly with a hk0 and redirect url for source id
+  Scenario Outline: redirect correctly to redirect url with source id
       Given the organisation reference link and redirect for "testcopictureid" has been set to "http://www.example.com/{source_id}"
 
-        And a "valid" offer
-        And an asset has been added for the given offer
-        And the asset has been indexed
-        And Header "Content-Type" is "application/json"
-        And Header "Accept" is "application/json"
-
-
-       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map hub_key0
-
+       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map <hub_key>
        Then I should receive a "302" response code
+    Examples:
+      | hub_key  |
+      | hub_key0 |
+      | hub_key1 |
 
-  Scenario: redirect correctly with a hk1 and redirect url for source id
-      Given the organisation reference link and redirect for "testcopictureid" has been set to "http://www.example.com/{source_id}"
-        And a "valid" offer
-        And an asset has been added for the given offer
-        And Header "Content-Type" is "application/json"
-        And Header "Accept" is "application/json"
 
-       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map hub_key1
+  Scenario Outline: redirect correctly to redirect url with an associated registered idtype
+      Given the additional id "demoidtype" "0123456789" has been attached to the asset
+        And the organisation reference link and redirect for "demoidtype" has been set to "http://www.example.com/{source_id}"
 
+       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map <hub_key>
        Then I should receive a "302" response code
-
-  Scenario: resolve correctly asset with a hk1 with an associated registered idtype
-      Given the organisation reference link and redirect for "demoidtype" has been set to "http://www.example.com/{source_id}"
-        And a "valid" offer
-        And an asset has been added for the given offer
-        And the additional id "demoidtype" "0123456789" has been attached to the asset
-        And Header "Content-Type" is "application/json"
-        And Header "Accept" is "application/json"
-
-       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map hub_key1
-
-       Then I should receive a "302" response code
+    Examples:
+      | hub_key  |
+      | hub_key0 |
+      | hub_key1 |

@@ -567,12 +567,12 @@ def set_organisation_reference_link(context):
     """)
 
 
-@given(u"the organisation reference link and redirect for \"{idtype}\" has been set to \"{url}\"")
+@given(u'the organisation reference link and redirect for "{idtype}" has been set to "{url}"')
 def set_organisation_reference_link_and_redirect(context, idtype, url):
     set_organisation_reference_link(context, idtype, url, redirect=True)
 
 
-@given(u"the organisation reference link for \"{idtype}\" has been set to \"{url}\"")
+@given(u'the organisation reference link for "{idtype}" has been set to "{url}"')
 def set_organisation_reference_link(context, idtype, url, redirect=False):
     if redirect:
         context.reference_link = {'links': {idtype: url}, 'redirect_id_type': idtype}
