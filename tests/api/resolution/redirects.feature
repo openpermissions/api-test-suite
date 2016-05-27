@@ -10,55 +10,66 @@ Feature: The resolution service redirects when needed to target website
 
   Background: the "resolution" service.
       Given the "resolution" service
-        And the existing user "harry"
+        And the existing user "cathy"
         And the user is logged in
-        And the existing organisation "toppco"
+        And the existing organisation "testco"
 
-
-  Scenario: resolve correctly asset with a valid hk0
-      Given a "valid" offer
+        And a "valid" offer
         And an asset has been added for the given offer
         And the asset has been indexed
+
         And Header "Content-Type" is "application/json"
+
+  Scenario Outline: resolve json correctly
+      Given the organisation has no reference links
         And Header "Accept" is "application/json"
 
-       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map hub_key0
-
+       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map <hub_key>
        Then I should receive a "200" response code
+    Examples:
+      | hub_key  |
+      | hub_key0 |
+      | hub_key1 |
 
-  Scenario: resolve correctly asset with a valid hk1
-      Given a "valid" offer
-        And an asset has been added for the given offer
-        And Header "Content-Type" is "application/json"
-        And Header "Accept" is "application/json"
+  Scenario Outline: resolve html correctly
+      Given the organisation has no reference links
 
-       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map hub_key1
-
+       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map <hub_key>
        Then I should receive a "200" response code
+    Examples:
+      | hub_key  |
+      | hub_key0 |
+      | hub_key1 |
 
-  Scenario: resolve correctly asset with a hk0 with an associated registered idtype
-      Given a "valid" offer
-        And an asset has been added for the given offer
-        And the additional id "demoidtype" "0123456789" has been attached to the asset
-        And the asset has been indexed
-        And Header "Content-Type" is "application/json"
-        And Header "Accept" is "application/json"
-        And the "toppco" reference link for "demoidtype" has been set to "http://www.toppco.com/"
-        And the "testco/cathy" reference link for "demoidtype" has been set to "http://www.testco.com/"
+  Scenario Outline: redirect correctly to redirect url without source id
+      Given the organisation reference link and redirect for "testcopictureid" has been set to "http://www.example.com/"
 
-       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map hub_key0
-
+       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map <hub_key>
        Then I should receive a "302" response code
+    Examples:
+      | hub_key  |
+      | hub_key0 |
+      | hub_key1 |
 
-  Scenario: resolve correctly asset with a hk1 with an associated registered idtype
-      Given a "valid" offer
-        And an asset has been added for the given offer
-        And the additional id "demoidtype" "0123456789" has been attached to the asset
-        And Header "Content-Type" is "application/json"
-        And Header "Accept" is "application/json"
-        And the "toppco" reference link for "demoidtype" has been set to "http://www.toppco.com/"
-        And the "testco/cathy" reference link for "demoidtype" has been set to "http://www.testco.com/"
 
-       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map hub_key1
+  Scenario Outline: redirect correctly to redirect url with source id
+      Given the organisation reference link and redirect for "testcopictureid" has been set to "http://www.example.com/{source_id}"
 
+       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map <hub_key>
        Then I should receive a "302" response code
+    Examples:
+      | hub_key  |
+      | hub_key0 |
+      | hub_key1 |
+
+
+  Scenario Outline: redirect correctly to redirect url with an associated registered idtype
+      Given the additional id "demoidtype" "0123456789" has been attached to the asset
+        And the organisation reference link and redirect for "demoidtype" has been set to "http://www.example.com/{source_id}"
+
+       When I make a "GET" request to the "resolve" endpoint with the unescaped id_map <hub_key>
+       Then I should receive a "302" response code
+    Examples:
+      | hub_key  |
+      | hub_key0 |
+      | hub_key1 |

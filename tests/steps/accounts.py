@@ -554,28 +554,35 @@ def approve_repository(context):
         When I make a "PUT" request to the "repository" endpoint with the repository id
     """)
 
-@given(u"the \"{org_id}\" reference link for \"{idtype}\" has been set to \"{url}\"")
-def set_toppco_reference_link(context, org_id, idtype, url, user="harry"):
-    if "/" in org_id:
-        user = org_id.split("/")[1]
-        org_id = org_id.split("/")[0]
 
-    context.reference_link = {'links': {idtype: url}, 'redirect_id_type': idtype}
+@given(u"the organisation has no reference links")
+def set_organisation_reference_link(context):
+    context.reference_link = {}
     context.clean_execute_steps("""
       Given the "accounts" service
-        And the existing organisation "{org_id}"
-        And the existing user "{user}"
-        And the user is logged in
         And parameter "reference_links" is the reference_link
         And Header "Authorization" is a valid token
 
        When I make a "PUT" request to the "organisation" endpoint with the organisation id
+    """)
 
-       Then I should receive a "200" response code
-        And response should have key "status" of 200
-        And response header "Content-Type" should be "application/json; charset=UTF-8"
-        And response "data" should be an object with "id" of type "unicode"
-        And response "data" should be an object with "name" of type "unicode"
-        And response "data" should be an object with "state" of type "unicode"
-        And response should not have key "errors"
-    """.format(org_id=org_id,user=user))
+
+@given(u'the organisation reference link and redirect for "{idtype}" has been set to "{url}"')
+def set_organisation_reference_link_and_redirect(context, idtype, url):
+    set_organisation_reference_link(context, idtype, url, redirect=True)
+
+
+@given(u'the organisation reference link for "{idtype}" has been set to "{url}"')
+def set_organisation_reference_link(context, idtype, url, redirect=False):
+    if redirect:
+        context.reference_link = {'links': {idtype: url}, 'redirect_id_type': idtype}
+    else:
+        context.reference_link = {'links': {idtype: url}}
+
+    context.clean_execute_steps("""
+      Given the "accounts" service
+        And parameter "reference_links" is the reference_link
+        And Header "Authorization" is a valid token
+
+       When I make a "PUT" request to the "organisation" endpoint with the organisation id
+    """)

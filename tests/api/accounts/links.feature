@@ -36,7 +36,7 @@ Feature: Ability to set redirect URIs in organisations
         And Header "Authorization" is a valid token
         And Header "Content-Type" is "application/json"
         And Header "Accept" is "application/json"
-        And the "toppco" reference link for "demoidtype" has been set to "http://www.demoidtype"
+        And the organisation reference link for "demoidtype" has been set to "http://www.toppco.com/"
 
        When I make a "POST" request to the "links" endpoint
 
