@@ -34,7 +34,6 @@ ENDPOINTS = {
         'secret': '/services/{}/secrets/{}',
         'users': '/users',
         'user': '/users/{}',
-        'user roles': '/users/{}/roles',
         'user verify': '/users/{}/verify',
         'user password': '/users/{}/password',
         'user organisations': '/users/{}/organisations',
