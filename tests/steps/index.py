@@ -188,7 +188,7 @@ def add_related_assets_for_offers(context):
            uuid=generate_random_id(),
            id=i["entity_uri"].format(repo_id=context.repository['id']))
 
-    context.id_map = {
+    context.id_map_parameters = {
         'S1': (S1['source_id_type'], S1['source_id']),
         'S1b': (S1B['source_id_type'], S1B['source_id']),
         'S2': (S2['source_id_type'], S2['source_id']),
@@ -215,3 +215,5 @@ def add_related_assets_for_offers(context):
        When I make a "POST" request with the repository id
     """)
     check_success(context)
+    # Used for checking that the asset has been indexed
+    context.id_map = S5

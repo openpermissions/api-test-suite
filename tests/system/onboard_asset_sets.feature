@@ -14,7 +14,7 @@ Feature: Asset Onboarding
   Scenario Outline: Onboard an Asset with Offers and then Query the Asset
       Given "3" offers with sets have already been onboarded
         And I onboard an asset in "<format>" format for the offer sets
-        And we wait 15 seconds
+        And the asset has been indexed
 
        When I query for the offers for the asset
 

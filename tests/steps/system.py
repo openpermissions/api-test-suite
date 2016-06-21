@@ -120,6 +120,8 @@ def create_default_repo(context):
 def onboard_asset(context, format='json'):
     token = get_auth_token(context, delegate_scope(context))
     context.asset = make_asset(getattr(context, "offer_ids", []), getattr(context, "set_ids", []))
+    context.id_map = context.asset['source_ids'][0]
+
     if format == 'json':
         headers = {
             'Content-Type': 'application/json; charset=utf-8',
@@ -245,6 +247,8 @@ def onboard_asset_with_supplier(context):
         'Accept-Charset': 'utf-8',
         'Authorization': 'Bearer ' + token}
     context.asset = make_asset(generate_offer_ids(context, count=1),[])
+    context.id_map = context.asset['source_ids'][0]
+
     endpoint = '{}/repositories/{}/assets'.format(
         context.services['onboarding'],
         context.repository['id']
