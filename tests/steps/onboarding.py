@@ -10,7 +10,7 @@
 from __future__ import unicode_literals
 
 from behave import given, then
-from six.moves.urllib.parse import quote
+from six.moves.urllib.parse import quote, urlparse
 import re
 
 CSV_KEYS = [
@@ -143,13 +143,14 @@ def should_receive_identifiers(context, n):
             entity_type, asset['entity_type'])
         assert asset['entity_type'] == entity_type, msg
 
-        hub_key_template = "https://openpermissions.org/s1/hub1/{}/{}/".format(
+        hub_key_path = '/s[0-9]/\w*/{}/{}/[0-9a-f]{{32}}'.format(
             context.repository['id'], entity_type)
 
-        expected_hub_key = re.compile(hub_key_template + '[0-9a-f]{32}')
-        msg = 'Expected hub_id to match {}, got {}'.format(expected_hub_key, asset['hub_key'])
+        expected_hub_key = re.compile(hub_key_path)
+        msg = 'Expected hub_id to match {}, got {}'.format(
+            hub_key_path, urlparse(asset['hub_key']).path)
 
-        match = expected_hub_key.match(asset['hub_key'])
+        match = expected_hub_key.match(urlparse(asset['hub_key']).path)
         assert match, msg
 
 
