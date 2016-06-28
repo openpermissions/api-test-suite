@@ -15,7 +15,7 @@ Feature: Asset Onboarding
   Scenario Outline: Onboard an Asset with Offers and then Query the Asset
       Given "3" offers have already been onboarded
         And I onboard an asset in "<format>" format for the offers
-        And we wait 15 seconds
+        And the asset has been indexed
 
        When I query for the offers for the asset
 
@@ -30,7 +30,7 @@ Feature: Asset Onboarding
   Scenario: Query for Licensors of an Asset
       Given "1" offers have already been onboarded
         And I onboard an asset that has a licensor
-        And we wait 15 seconds
+        And the asset has been indexed
 
        When I query for the licensor for that asset
 

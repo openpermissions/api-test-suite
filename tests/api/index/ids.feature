@@ -15,13 +15,13 @@ Feature: Return related ids on single and bulk queries
   Scenario Outline: Retrieve relations of an entity in the index
       Given a "valid" offer
         And related asset have been added for the given offer
+        And the asset has been indexed
         And the "index" service
-        And we wait 15 seconds
         And the "<entity-repositories>" endpoint
         And Header "Accept" is "application/json"
         And parameter "related_depth" is "2"
 
-       When I make a "GET" request with the id_map <id>
+       When I make a "GET" request with the id_map_parameters <id>
 
        Then I should receive a "200" response code
         And response should have key "status" of 200
