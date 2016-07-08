@@ -61,6 +61,7 @@ ENDPOINTS = {
         'root': '',
         'notifications': '/notifications',
         'asset': '/entity-types/asset/repositories',
+        'indexed': '/repositories/{}/indexed',
     },
 
     'onboarding': {
