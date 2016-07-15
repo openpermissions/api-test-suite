@@ -512,30 +512,34 @@ def add_offer_sets(context, no_of_lic_offs):
             context.offer_ids.append(context.offer['id'])
 
 
-@given(u'body is a "{state}" xml asset')
-@given(u'body is an "{state}" xml asset')
-@given(u'body is "{state}" an xml asset')
-def inject_asset_into_context_body(context, state):
-    if state == "valid":
-        source_id = generate_random_id()
-        entity_ids, asset_ttl = format_common_asset(source_id)
-        offer_id = getattr(context, 'offer', {}).get('id')
-        offer_ids = [offer_id] if offer_id else []
-        context.body = generate_asset_xml(
-            offer_ids,
-            asset_ttl,
-            entity_ids[0]
-        )
-    elif state == "invalid":
-        context.body = """
+@given(u'body is a "valid" {content_type} asset')
+def inject_valid_asset_into_context_body(context, content_type):
+    source_id = generate_random_id()
+    entity_ids, asset_ttl = format_common_asset(source_id)
+    offer_id = getattr(context, 'offer', {}).get('id')
+    offer_ids = [offer_id] if offer_id else []
+    context.body = generate_asset(
+        offer_ids,
+        asset_ttl,
+        entity_ids[0],
+        content_type
+    )
+
+
+@given(u'body is an "invalid" xml asset')
+def inject_invalid_asset_into_context_body(context):
+    context.body = """
         <?xml version="1.0" encoding="UTF-8"?>
         <note>
             <p>
                 badly formed xml
         </note>
         """
-    elif state == "not":
-        context.body = "not xml data"
+
+
+@given(u'body is "not" an xml asset')
+def inject_not_an_asset_into_context_body(context):
+    context.body = "not xml data"
 
 
 date_format = "%Y-%m-%dT%H:%M:%SZ"
@@ -548,7 +552,8 @@ def isoformat(d):
     """
     return d.strftime(date_format)
 
-def generate_asset_xml(offer_ids, asset_ttl, entity_id):
+
+def generate_asset(offer_ids, asset_ttl, entity_id, content_type='xml'):
     graph = Graph()
     graph.parse(data=asset_ttl, format='turtle')
     for offer_id in offer_ids:
@@ -560,11 +565,11 @@ def generate_asset_xml(offer_ids, asset_ttl, entity_id):
         )
         graph.parse(data=asset_offer_ttl, format='turtle')
 
-    asset_xml = graph.serialize(format='xml')
-    return asset_xml
+    asset = graph.serialize(format=content_type)
+    return asset
 
 
-def generate_indirect_asset_xml(asset_ttl, entity_id, offer_ids=[], set_ids=[]):
+def generate_indirect_asset(asset_ttl, entity_id, offer_ids=[], set_ids=[], content_type='xml'):
     graph = Graph()
     graph.parse(data=asset_ttl, format='turtle')
     for offer_id in offer_ids:
@@ -588,8 +593,8 @@ def generate_indirect_asset_xml(asset_ttl, entity_id, offer_ids=[], set_ids=[]):
 
         graph.parse(data=asset_offer_ttl, format='turtle')
 
-    asset_xml = graph.serialize(format='xml')
-    return asset_xml
+    asset = graph.serialize(format=content_type)
+    return asset
 
 
 def format_common_asset(source_id):
@@ -625,9 +630,9 @@ def add_asset_for_offers(context, asset):
     source_id = generate_random_id()
     entity_ids, asset_ttl = format_common_asset(source_id)
     if asset == "asset":
-        asset_xml = generate_asset_xml(offer_ids, asset_ttl, entity_ids[0])
+        asset_xml = generate_asset(offer_ids, asset_ttl, entity_ids[0])
     if asset == "indirect asset":
-        asset_xml = generate_indirect_asset_xml(asset_ttl, entity_ids[0], offer_ids=offer_ids)
+        asset_xml = generate_indirect_asset(asset_ttl, entity_ids[0], offer_ids=offer_ids)
 
     context.body = asset_xml
     hub_key = TEMPLATE_HUBKEY.format(

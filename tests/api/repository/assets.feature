@@ -17,10 +17,10 @@ Feature: The Assets endpoint
       Given the "assets" endpoint for the repository
 
 
-  Scenario: successfully store assets
-      Given Header "Content-Type" is "application/xml"
+  Scenario Outline: successfully store assets
+      Given Header "Content-Type" is "<content_type>"
         And Header "Accept" is "application/json"
-        And body is a "valid" xml asset
+        And body is a "valid" <data_format> asset
 
        When I make a "POST" request with the repository id
 
@@ -28,6 +28,12 @@ Feature: The Assets endpoint
         And response should have key "status" of 200
         And response header "Content-Type" should be "application/json; charset=UTF-8"
         And response should not have key "errors"
+
+      Examples:
+        | content_type        | data_format |
+        | application/xml     | xml         |
+        | text/rdf+n3         | turtle      |
+        | application/ld+json | json-ld     |
 
 
   Scenario: Missing Content-Type
