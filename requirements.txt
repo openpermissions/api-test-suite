@@ -11,4 +11,5 @@ rdflib-jsonld==0.3
 opp-bass==1.0.9
 opp-chub==1.0.6
 opp-koi==1.0.10
+html5lib==0.9999999
 git+https://github.com/CDECatapult/behave.git@v1.3.1
