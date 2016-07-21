@@ -18,6 +18,7 @@ from chub.oauth2 import Delegate, Write
 from repository import COMMON_ASSET_DETAILS
 from general import get_client_secret, get_endpoint
 
+from tests import config
 
 REQUEST_TIMEOUT = 240
 
@@ -222,7 +223,7 @@ def query_offers(context):
 def query_agreement(context):
     url = context.services['query'] + get_endpoint('query', 'entities')
     hub_key = generate_hub_key('localhost',
-                               'test',
+                               config.hub_id,
                                context.repository['id'],
                                'agreement',
                                context.agreement_id)

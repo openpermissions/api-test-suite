@@ -32,3 +32,4 @@ R2RML_MAPPING_URLS = {
 }
 
 test_org = 'toppco'
+hub_id = 'hub1'
