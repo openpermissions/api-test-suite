@@ -24,7 +24,7 @@ from chub.api import API
 
 from endpoints import get_endpoint
 from http_client import request
-from tests import config
+import config
 
 @given(u'we wait {seconds} seconds')
 def wait_seconds(context, seconds):

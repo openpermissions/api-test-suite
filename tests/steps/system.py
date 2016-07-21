@@ -18,7 +18,7 @@ from chub.oauth2 import Delegate, Write
 from repository import COMMON_ASSET_DETAILS
 from general import get_client_secret, get_endpoint
 
-from tests import config
+import config
 
 REQUEST_TIMEOUT = 240
 
