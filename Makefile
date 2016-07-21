@@ -59,3 +59,22 @@ behave_system:
 behave:
 	cd tests && \
 	(behave . --randomize --junit --junit-directory reports --tags ~@notimplemented -k -o reports/all_results.txt) || (exit 0)
+
+# Create egg_locks
+egg_locks:
+	top_level="$(SERVICEDIR)/requirements_top_level.txt" ; \
+	if [ -e $$top_level ]; then \
+		venv_path="$(SERVICEDIR)/_requirements_" ; \
+		req_file="$(SERVICEDIR)/requirements.txt" ; \
+		rm -rf $$venv_path ; \
+		virtualenv $$venv_path ; \
+		source $$venv_path"/bin/activate" ; \
+		pip install -r $$top_level ; \
+		echo "################################################" > $$req_file ; \
+		echo "## DO NOT EDIT - AUTOMATICALLY GENERATED FILE ##" >> $$req_file ; \
+		echo "################################################" >> $$req_file ; \
+		pip freeze >> $$req_file ; \
+		deactivate ; \
+		rm -rf $$venv_path ; \
+		sed -i '' -e 's|behave==\(.*\)|git+https://github.com/CDECatapult/behave.git@v\1|g' $$req_file ; \
+	fi;

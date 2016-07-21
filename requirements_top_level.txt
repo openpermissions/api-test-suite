@@ -1,0 +1,15 @@
+grip==3.2.0
+PyJWT==1.4.0
+mock==1.0.1
+pylint==1.3.0
+requests==2.4.1
+tornado==4.2.1
+jsonpointer==1.10
+six==1.9.0
+rdflib==4.2.1
+rdflib-jsonld==0.3
+opp-bass==1.0.9
+opp-chub==1.0.6
+opp-koi==1.0.10
+html5lib==0.9999999
+git+https://github.com/CDECatapult/behave.git@v1.3.1
