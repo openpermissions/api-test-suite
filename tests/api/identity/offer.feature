@@ -14,7 +14,6 @@ Feature: Offer endpoint
         And the client ID is the "testco" "external" service ID
         And the client has an access token granting "write" access to the "toppco" "identity" service
         And parameter "resolver_id" is "https://openpermissions.org"
-        And parameter "hub_id" is "hub1"
         And parameter "repository_id" is "10e4b9612337f237118e1678ec001fa6"
         And Header "Content-Type" is "application/json"
         And Header "Accept" is "application/json"
@@ -59,7 +58,6 @@ Feature: Offer endpoint
       Examples:
         | param         |
         | resolver_id   |
-        | hub_id        |
         | repository_id |
 
 
