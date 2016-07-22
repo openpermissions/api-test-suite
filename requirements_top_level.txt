@@ -8,7 +8,7 @@ jsonpointer==1.10
 six==1.9.0
 rdflib==4.2.1
 rdflib-jsonld==0.3
-opp-bass==1.0.9
+git+https://github.com/openpermissions/bass.git@OPP-37
 opp-chub==1.0.6
 opp-koi==1.0.10
 html5lib==0.9999999
