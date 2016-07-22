@@ -24,7 +24,7 @@ from chub.api import API
 
 from endpoints import get_endpoint
 from http_client import request
-
+import config
 
 @given(u'we wait {seconds} seconds')
 def wait_seconds(context, seconds):
@@ -93,7 +93,7 @@ def set_request_body_attr_array_wrapped(context, key, obj,attr):
 @given('the agreement\'s hub key is the "hub_key" parameter')
 def parameter_hub_key(context):
     hub_key = generate_hub_key('localhost',
-                               'test',
+                               config.hub_id,
                                context.repository['id'],
                                'agreement',
                                context.agreement['id'])

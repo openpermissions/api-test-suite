@@ -188,7 +188,6 @@ COMMON_ASSET_DETAILS = {
     'organisation_id': u'testco',
     'organisation_repo': u'testco repo',
     'resolver_id': u'openpermissions.org',
-    'hub_id': u'hub1',
     'source_id_type': u'testcopictureid'
 }
 
