@@ -1,4 +1,4 @@
-grip==3.2.0
+grip==4.3.2
 PyJWT==1.4.0
 mock==1.0.1
 pylint==1.3.0
